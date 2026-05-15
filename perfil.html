@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechStore | Meu Perfil</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👤</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="perfil.css">
+    <link rel="stylesheet" href="chat.css">
+</head>
+<body onload="loadPerfil()">
+
+<nav class="navbar">
+    <div class="logo" onclick="window.location.href='dashboard.html'">TECH<span>STORE</span></div>
+    <div class="nav-right">
+        <button class="nav-btn" onclick="window.location.href='dashboard.html'">🏠 Loja</button>
+        <button class="nav-btn" onclick="window.location.href='pedidos.html'">📦 Pedidos</button>
+        <button class="nav-btn" onclick="window.location.href='favoritos.html'">❤️ Favoritos</button>
+        <button class="nav-btn cart" onclick="window.location.href='carrinho.html'">
+            🛒 Carrinho <span class="cart-badge-nav" id="cartBadge" style="display:none;">0</span>
+        </button>
+        <button class="nav-btn logout" onclick="logout()">Sair</button>
+    </div>
+</nav>
+
+<main class="container">
+    <div class="profile-layout">
+
+        <!-- LEFT: Avatar + Stats -->
+        <aside class="profile-sidebar">
+            <div class="avatar-card">
+                <div class="avatar-circle" id="avatarCircle">?</div>
+                <h2 id="profileName">Carregando...</h2>
+                <p id="profileEmail" class="profile-email-text"></p>
+                <span id="profileRoleBadge" class="role-badge"></span>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-val" id="statOrders">0</div>
+                    <div class="stat-lbl">Pedidos</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-val" id="statFavs">0</div>
+                    <div class="stat-lbl">Favoritos</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-val" id="statSpent">R$ 0</div>
+                    <div class="stat-lbl">Total gasto</div>
+                </div>
+            </div>
+
+            <div class="member-since">
+                <span>📅 Membro desde</span>
+                <strong id="memberSince">—</strong>
+            </div>
+
+            <nav class="profile-nav">
+                <button class="pnav-btn active" onclick="showSection('info')">👤 Meus Dados</button>
+                <button class="pnav-btn" onclick="showSection('security')">🔒 Segurança</button>
+                <button class="pnav-btn" onclick="showSection('orders')">📦 Histórico</button>
+            </nav>
+        </aside>
+
+        <!-- RIGHT: Content Sections -->
+        <div class="profile-content">
+
+            <!-- INFO SECTION -->
+            <section id="section-info" class="profile-section active-section">
+                <div class="section-header">
+                    <h3>👤 Meus Dados</h3>
+                    <p>Gerencie suas informações pessoais</p>
+                </div>
+                <div class="form-card">
+                    <div class="form-group">
+                        <label>Nome de exibição</label>
+                        <input type="text" id="editName" placeholder="Seu nome">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="editEmail" disabled>
+                        <small>O email não pode ser alterado</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Função</label>
+                        <input type="text" id="editRole" disabled>
+                    </div>
+                    <button class="btn-save" onclick="saveInfo()">💾 Salvar alterações</button>
+                </div>
+            </section>
+
+            <!-- SECURITY SECTION -->
+            <section id="section-security" class="profile-section" style="display:none;">
+                <div class="section-header">
+                    <h3>🔒 Segurança</h3>
+                    <p>Altere sua senha de acesso</p>
+                </div>
+                <div class="form-card">
+                    <div class="form-group">
+                        <label>Senha atual</label>
+                        <input type="password" id="oldPassword" placeholder="Digite sua senha atual">
+                    </div>
+                    <div class="form-group">
+                        <label>Nova senha</label>
+                        <input type="password" id="newPassword" placeholder="Mínimo 6 caracteres">
+                    </div>
+                    <div class="form-group">
+                        <label>Confirmar nova senha</label>
+                        <input type="password" id="confirmPassword" placeholder="Repita a nova senha">
+                    </div>
+                    <button class="btn-save" onclick="changePassword()">🔐 Alterar senha</button>
+                </div>
+            </section>
+
+            <!-- ORDERS SECTION -->
+            <section id="section-orders" class="profile-section" style="display:none;">
+                <div class="section-header">
+                    <h3>📦 Histórico de Compras</h3>
+                    <p>Seus últimos pedidos</p>
+                </div>
+                <div id="profileOrdersList"></div>
+                <div id="profileOrdersEmpty" class="mini-empty" style="display:none;">
+                    <p>Nenhum pedido ainda. <a href="dashboard.html">Ver produtos →</a></p>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</main>
+
+<script src="notifications.js"></script>
+<script src="chat.js"></script>
+<script src="perfil.js"></script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechStore | Meus Pedidos</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📦</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="pedidos.css">
+    <link rel="stylesheet" href="chat.css">
+</head>
+<body onload="loadPedidos()">
+
+<nav class="navbar">
+    <div class="logo" onclick="window.location.href='dashboard.html'">TECH<span>STORE</span></div>
+    <div class="nav-right">
+        <button class="nav-btn" onclick="window.location.href='dashboard.html'">🏠 Loja</button>
+        <button class="nav-btn" onclick="window.location.href='favoritos.html'">❤️ Favoritos</button>
+        <button class="nav-btn" onclick="window.location.href='perfil.html'">👤 Perfil</button>
+        <button class="nav-btn cart" onclick="window.location.href='carrinho.html'">🛒 Carrinho</button>
+        <button class="nav-btn logout" onclick="logout()">Sair</button>
+    </div>
+</nav>
+
+<main class="container">
+    <div class="page-header">
+        <h1>📦 Meus Pedidos</h1>
+        <p id="headerSub">Acompanhe seus pedidos e solicite reembolsos</p>
+    </div>
+
+    <div id="adminView" style="display:none;">
+        <div class="admin-banner"><span>⚙️ Visão Admin — Todos os pedidos e solicitações de reembolso</span></div>
+        <div id="allRefundRequests" class="refund-requests-list"></div>
+    </div>
+
+    <div id="ordersList"></div>
+
+    <div id="emptyOrders" style="display:none;" class="empty-state">
+        <div class="empty-icon">📦</div>
+        <h2>Nenhum pedido ainda</h2>
+        <p>Quando você comprar, seus pedidos aparecem aqui.</p>
+        <button onclick="window.location.href='dashboard.html'" class="btn-shop">Ver produtos</button>
+    </div>
+</main>
+
+<div id="refundModal" class="modal">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h2>Solicitar Reembolso</h2>
+            <span onclick="closeRefund()" class="modal-close">✕</span>
+        </div>
+        <div class="modal-body">
+            <div id="refundOrderInfo"></div>
+            <div class="form-group">
+                <label>Motivo do reembolso</label>
+                <select id="refundReason">
+                    <option value="">Selecione um motivo...</option>
+                    <option value="produto_defeituoso">Produto com defeito</option>
+                    <option value="nao_chegou">Produto não chegou</option>
+                    <option value="produto_errado">Produto errado entregue</option>
+                    <option value="arrependimento">Desistência / Arrependimento</option>
+                    <option value="qualidade">Qualidade abaixo do esperado</option>
+                    <option value="outro">Outro motivo</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Descrição (opcional)</label>
+                <textarea id="refundDesc" placeholder="Descreva o problema com mais detalhes..." rows="4"></textarea>
+            </div>
+            <div class="refund-policy">
+                <strong>📋 Política de reembolso:</strong>
+                <ul>
+                    <li>Reembolsos aprovados em até 5 dias úteis</li>
+                    <li>Valor devolvido na forma de pagamento original</li>
+                    <li>Prazo máximo de 30 dias após a compra</li>
+                </ul>
+            </div>
+            <div class="modal-actions">
+                <button onclick="closeRefund()" class="btn-cancel">Cancelar</button>
+                <button onclick="submitRefund()" class="btn-submit">Enviar Solicitação</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="refundSuccessModal" class="modal">
+    <div class="modal-box small">
+        <div class="success-anim">✅</div>
+        <h2>Solicitação enviada!</h2>
+        <p>Analisaremos seu pedido em até <strong>5 dias úteis</strong>.</p>
+        <button onclick="closeRefundSuccess()" class="btn-submit">Entendido</button>
+    </div>
+</div>
+
+<script src="notifications.js"></script>
+<script src="chat.js"></script>
+<script src="pedidos.js"></script>
+</body>
+</html>

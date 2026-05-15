@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechStore</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🖥️</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="chat.css">
+</head>
+<body onload="initDashboard()">
+
+<!-- ============================
+     NAVBAR — emoji only
+     ============================ -->
+<nav class="navbar">
+    <div class="logo">TECH<span>STORE</span></div>
+    <div class="user-info">
+        <span id="userGreeting" class="user-greeting"></span>
+        <span id="userRoleTag" class="user-role-tag" style="display:none;"></span>
+        <button id="btnAdminPanel" class="icon-btn" onclick="window.location.href='admin.html'" style="display:none;" title="Painel Admin">⚙️</button>
+        <button id="btnAddProduct" class="icon-btn green" onclick="window.location.href='vender.html'" style="display:none;" title="Adicionar Produto">＋</button>
+        <button class="icon-btn" onclick="window.location.href='pedidos.html'" title="Meus Pedidos">📦</button>
+        <button class="icon-btn red" id="favsNavBtn" onclick="window.location.href='favoritos.html'" title="Favoritos">
+            ❤️<span class="icon-badge" id="favsNavCount" style="display:none;"></span>
+        </button>
+        <button class="icon-btn" onclick="window.location.href='perfil.html'" title="Perfil">👤</button>
+        <button class="icon-btn blue cart-icon-btn" onclick="window.location.href='carrinho.html'" title="Carrinho">
+            🛒<span class="icon-badge" id="cartBadge" style="display:none;"></span>
+        </button>
+        <button class="icon-btn exit-btn" onclick="logout()" title="Sair">🚪</button>
+    </div>
+</nav>
+
+<!-- ============================
+     CATEGORY DRAWER (hamburger)
+     ============================ -->
+<div id="catOverlay" class="cat-overlay" onclick="closeCatDrawer()"></div>
+<div id="catDrawer" class="cat-drawer">
+    <div class="cat-drawer-header">
+        <span>🗂️ Categorias</span>
+        <button class="cat-drawer-close" onclick="closeCatDrawer()">✕</button>
+    </div>
+    <div class="cat-drawer-list">
+        <button class="cat-drawer-btn active" data-cat="Todos"         onclick="setCategory('Todos')">        🛍️ <span>Todos os produtos</span></button>
+        <button class="cat-drawer-btn" data-cat="Teclados"     onclick="setCategory('Teclados')">     ⌨️ <span>Teclados</span></button>
+        <button class="cat-drawer-btn" data-cat="Mouses"       onclick="setCategory('Mouses')">       🖱️ <span>Mouses</span></button>
+        <button class="cat-drawer-btn" data-cat="Monitores"    onclick="setCategory('Monitores')">    🖥️ <span>Monitores</span></button>
+        <button class="cat-drawer-btn" data-cat="Headsets"     onclick="setCategory('Headsets')">     🎧 <span>Headsets</span></button>
+        <button class="cat-drawer-btn" data-cat="Smartwatches" onclick="setCategory('Smartwatches')"> ⌚ <span>Smartwatches</span></button>
+        <button class="cat-drawer-btn" data-cat="Notebooks"    onclick="setCategory('Notebooks')">    💻 <span>Notebooks</span></button>
+        <button class="cat-drawer-btn" data-cat="Periféricos"  onclick="setCategory('Periféricos')">  🕹️ <span>Periféricos</span></button>
+        <button class="cat-drawer-btn" data-cat="Setups"       onclick="setCategory('Setups')">       🖥️ <span>Setups</span></button>
+    </div>
+</div>
+
+<main class="container">
+
+    <!-- ADMIN QUICK-ADD PANEL -->
+    <section id="adminPanel" class="admin-panel" style="display: none;">
+        <h2><span class="icon">⚙️</span> Adicionar Produto</h2>
+        <div class="admin-grid">
+            <input type="text" id="pName" placeholder="Nome do Produto">
+            <input type="text" id="pPrice" placeholder="Preço (Ex: 4500.00)">
+            <input type="text" id="pImage" placeholder="URL da Imagem">
+            <select id="pCategory" class="admin-select">
+                <option value="Todos">Selecione a categoria</option>
+                <option value="Teclados">Teclados</option>
+                <option value="Mouses">Mouses</option>
+                <option value="Monitores">Monitores</option>
+                <option value="Headsets">Headsets</option>
+                <option value="Smartwatches">Smartwatches</option>
+                <option value="Notebooks">Notebooks</option>
+                <option value="Periféricos">Periféricos</option>
+                <option value="Setups">Setups</option>
+            </select>
+            <button onclick="addProduct()" class="btn-add">Adicionar</button>
+        </div>
+    </section>
+
+    <!-- RECOMMENDATIONS CAROUSEL -->
+    <section class="recs-section" id="recsSection">
+        <div class="recs-header">
+            <div class="recs-title">
+                <span>🔥</span>
+                <h2>Recomendados para você</h2>
+            </div>
+            <div class="recs-nav-btns">
+                <button class="recs-nav-btn" onclick="scrollRecs(-1)">‹</button>
+                <button class="recs-nav-btn" onclick="scrollRecs(1)">›</button>
+            </div>
+        </div>
+        <div class="recs-track-wrapper">
+            <div class="recs-track" id="recsTrack"></div>
+        </div>
+    </section>
+
+    <!-- SEARCH + FILTER BAR -->
+    <div class="search-filter-bar">
+        <!-- Hamburger category button -->
+        <button class="hamburger-btn" onclick="openCatDrawer()" title="Categorias">
+            <span class="hamburger-icon">
+                <span></span><span></span><span></span>
+            </span>
+            <span id="activeCatLabel">Todas as categorias</span>
+        </button>
+
+        <!-- Search -->
+        <div class="search-bar-box">
+            <span>🔍</span>
+            <input type="text" id="searchInput" placeholder="Buscar produto..." oninput="searchProducts()" autocomplete="off">
+            <button class="search-clear" id="searchClear" onclick="clearSearch()" style="display:none;">✕</button>
+        </div>
+
+        <!-- Sort -->
+        <div class="sort-btns">
+            <button class="sort-btn active" data-sort="default" onclick="setSort('default')" title="Padrão">⊟</button>
+            <button class="sort-btn" data-sort="asc" onclick="setSort('asc')" title="Menor preço">💲↑</button>
+            <button class="sort-btn" data-sort="desc" onclick="setSort('desc')" title="Maior preço">💎↓</button>
+        </div>
+    </div>
+
+    <div class="search-results-info" id="searchInfo"></div>
+
+    <!-- PRODUCT GRID (full width now — no sidebar) -->
+    <div id="productGrid" class="product-grid"></div>
+</main>
+
+<!-- COMPARE TRAY -->
+<div id="compareTray" class="compare-tray" style="display:none;">
+    <div class="tray-header">
+        <span class="tray-title">⚖️ Comparar <span id="trayCount" class="tray-count">0/4</span></span>
+        <div class="tray-actions">
+            <button class="btn-compare-now" id="btnCompareNow" onclick="openComparison()" disabled>Comparar agora</button>
+            <button class="btn-clear-tray" onclick="clearTray()">Limpar</button>
+        </div>
+    </div>
+    <div class="tray-slots" id="traySlots">
+        <div class="tray-slot empty" id="slot0"><span>+ Adicionar</span></div>
+        <div class="tray-slot empty" id="slot1"><span>+ Adicionar</span></div>
+        <div class="tray-slot empty" id="slot2"><span>+ Adicionar</span></div>
+        <div class="tray-slot empty" id="slot3"><span>+ Adicionar</span></div>
+    </div>
+</div>
+
+<!-- COMPARE MODAL -->
+<div id="compareModal" class="compare-modal">
+    <div class="compare-modal-inner">
+        <div class="compare-modal-header">
+            <h2>⚖️ Comparação de Produtos</h2>
+            <button onclick="closeComparison()" class="btn-close-modal">✕</button>
+        </div>
+        <div id="compareGrid" class="compare-grid"></div>
+    </div>
+</div>
+
+<script src="notifications.js"></script>
+<script src="chat.js"></script>
+<script src="dashboard.js"></script>
+</body>
+</html>

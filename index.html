@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechStore | Login</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🖥️</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="background-glow"></div>
+
+<div class="login-box">
+    <div class="tabs">
+        <div class="tab active" id="loginTab" onclick="showLogin()">ENTRAR</div>
+        <div class="tab" id="registerTab" onclick="showRegister()">REGISTRAR</div>
+    </div>
+
+    <div id="loginArea" class="form-container">
+        <h1>BEM-VINDO</h1>
+        <p class="subtitle">Sentimos sua falta! Entre na sua conta.</p>
+        <div class="input-group">
+            <input type="email" id="email" placeholder=" " required>
+            <label>Email</label>
+        </div>
+        <div class="input-group">
+            <input type="password" id="password" placeholder=" " required onkeydown="if(event.key==='Enter')login()">
+            <label>Senha</label>
+        </div>
+        <button class="btn login-btn" onclick="login()">ENTRAR</button>
+    </div>
+
+    <div id="registerArea" class="form-container" style="display:none;">
+        <h1>CRIAR CONTA</h1>
+        <p class="subtitle">Junte-se a nós e comece sua jornada.</p>
+        <div class="input-group">
+            <input type="text" id="registerName" placeholder=" " required>
+            <label>Seu nome</label>
+        </div>
+        <div class="input-group">
+            <input type="email" id="registerEmail" placeholder=" " required>
+            <label>Novo email</label>
+        </div>
+        <div class="input-group">
+            <input type="password" id="registerPassword" placeholder=" " required onkeydown="if(event.key==='Enter')register()">
+            <label>Nova senha</label>
+        </div>
+        <button class="btn register-btn" onclick="register()">CRIAR CONTA</button>
+    </div>
+
+    <p id="msg"></p>
+</div>
+
+<script src="notifications.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechStore | Carrinho</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛒</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="carrinho.css">
+    <link rel="stylesheet" href="chat.css">
+</head>
+<body onload="loadCart()">
+
+<nav class="navbar">
+    <div class="logo" onclick="window.location.href='dashboard.html'">TECH<span>STORE</span></div>
+    <button class="back-btn" onclick="window.location.href='dashboard.html'">⬅ Continuar comprando</button>
+</nav>
+
+<main class="container">
+    <h1 class="page-title">🛒 Seu Carrinho</h1>
+
+    <div class="cart-layout">
+        <div class="cart-items" id="cartItems"></div>
+
+        <aside class="cart-summary">
+            <h2>Resumo do pedido</h2>
+
+            <div class="summary-row">
+                <span>Produtos (<span id="totalQty">0</span>)</span>
+                <span id="subtotal">R$ 0,00</span>
+            </div>
+            <div class="summary-row">
+                <span>Frete</span>
+                <span id="freteLabel" class="free">GRÁTIS</span>
+            </div>
+
+            <!-- CEP / FRETE -->
+            <div class="cep-box">
+                <div class="cep-header">
+                    <span class="cep-header-icon">🚚</span>
+                    <span class="cep-header-text">Calcular Frete</span>
+                </div>
+                <div class="cep-input-row">
+                    <input type="text" id="cepInput" placeholder="Digite seu CEP" maxlength="9" oninput="formatCEP(this)" autocomplete="postal-code">
+                    <button onclick="calcFrete()" class="btn-calc-frete">Calcular</button>
+                </div>
+                <div id="cepMsg" class="cep-msg"></div>
+                <div id="freteOptions" class="frete-options"></div>
+            </div>
+
+            <!-- CUPOM DE DESCONTO -->
+            <div class="coupon-box">
+                <div class="coupon-box-inner">
+                    <div class="coupon-header">
+                        <div class="coupon-header-icon">🏷️</div>
+                        <span class="coupon-header-text">Cupom de Desconto</span>
+                    </div>
+                    <div class="coupon-input-row">
+                        <input type="text" id="couponInput" placeholder="Digite o código" autocomplete="off" oninput="this.value=this.value.toUpperCase()">
+                        <button onclick="applyCoupon()" class="btn-apply-coupon">Aplicar</button>
+                    </div>
+                    <div id="couponMsg" class="coupon-msg"></div>
+                    <div class="coupon-hint">
+                        <span class="coupon-hint-text">Tente:</span>
+                        <span class="coupon-hint-code">TECH10</span>
+                        <span class="coupon-hint-code">SAVE20</span>
+                        <span class="coupon-hint-code">BEMVINDO</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-divider"></div>
+            <div class="summary-row discount-row" id="discountRow" style="display:none;">
+                <span>Desconto <span id="couponLabel" class="coupon-applied-tag"></span></span>
+                <span id="discountValue" style="color:#00ff88;">- R$ 0,00</span>
+            </div>
+            <div class="summary-row frete-row" id="freteRow" style="display:none;">
+                <span>Frete escolhido</span>
+                <span id="freteValue" style="color:#ffcc00;">R$ 0,00</span>
+            </div>
+            <div class="summary-row total-row">
+                <span>Total</span>
+                <span id="totalPrice">R$ 0,00</span>
+            </div>
+            <div class="pix-discount" id="pixDiscount"></div>
+
+            <div class="payment-methods">
+                <p>Forma de pagamento</p>
+                <div class="pay-item" onclick="selectPay('pix')">
+                    <input type="radio" name="pay" id="pix" value="pix" checked>
+                    <label for="pix">💠 PIX <strong>(5% OFF)</strong></label>
+                </div>
+                <div class="pay-item" onclick="selectPay('credito')">
+                    <input type="radio" name="pay" id="credito" value="credito">
+                    <label for="credito">💳 Cartão de Crédito</label>
+                </div>
+                <div class="pay-item" onclick="selectPay('boleto')">
+                    <input type="radio" name="pay" id="boleto" value="boleto">
+                    <label for="boleto">📄 Boleto Bancário</label>
+                </div>
+            </div>
+
+            <!-- PIX INFO -->
+            <div id="pixInfo" class="method-info pix-info">
+                <div class="pix-qr">
+                    <div class="qr-placeholder">
+                        <div class="qr-icon">📱</div>
+                        <p>Chave PIX gerada ao confirmar</p>
+                    </div>
+                </div>
+                <p class="info-note">Após confirmar, você receberá a chave PIX por email.</p>
+            </div>
+
+            <!-- CARTÃO DE CRÉDITO -->
+            <div id="cardInfo" class="method-info card-info" style="display:none;">
+                <div class="card-visual" id="cardVisual">
+                    <div class="card-front" id="cardFront">
+                        <div class="card-top">
+                            <span class="card-bank">TECHSTORE</span>
+                            <span class="card-brand" id="cardBrand">💳</span>
+                        </div>
+                        <div class="card-chip">▬▬</div>
+                        <div class="card-number-display" id="cardNumberDisplay">•••• •••• •••• ••••</div>
+                        <div class="card-bottom">
+                            <div>
+                                <span class="card-label">TITULAR</span>
+                                <span class="card-holder-display" id="cardHolderDisplay">SEU NOME</span>
+                            </div>
+                            <div>
+                                <span class="card-label">VALIDADE</span>
+                                <span class="card-expiry-display" id="cardExpiryDisplay">MM/AA</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-back" id="cardBack" style="display:none;">
+                        <div class="card-stripe"></div>
+                        <div class="card-cvv-area">
+                            <span class="card-label">CVV</span>
+                            <span class="cvv-display" id="cvvDisplay">•••</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-form">
+                    <div class="form-group">
+                        <label>Número do Cartão</label>
+                        <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19" oninput="formatCardNumber(this)" onfocus="showFront()" autocomplete="cc-number">
+                    </div>
+                    <div class="form-group">
+                        <label>Nome do Titular</label>
+                        <input type="text" id="cardHolder" placeholder="NOME COMO NO CARTÃO" oninput="updateHolder(this)" onfocus="showFront()" style="text-transform:uppercase;" autocomplete="cc-name">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Validade</label>
+                            <input type="text" id="cardExpiry" placeholder="MM/AA" maxlength="5" oninput="formatExpiry(this)" onfocus="showFront()" autocomplete="cc-exp">
+                        </div>
+                        <div class="form-group">
+                            <label>CVV</label>
+                            <input type="text" id="cardCVV" placeholder="•••" maxlength="4" oninput="updateCVV(this)" onfocus="showBack()" onblur="showFront()" autocomplete="cc-csc">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Parcelas</label>
+                        <select id="installments" onchange="updateInstallments()">
+                            <option value="1">1x sem juros</option>
+                            <option value="2">2x sem juros</option>
+                            <option value="3">3x sem juros</option>
+                            <option value="6">6x sem juros</option>
+                            <option value="10">10x sem juros</option>
+                            <option value="12">12x com juros</option>
+                        </select>
+                    </div>
+                    <div class="installment-info" id="installmentInfo"></div>
+                </div>
+            </div>
+
+            <!-- BOLETO -->
+            <div id="boletoInfo" class="method-info boleto-info" style="display:none;">
+                <div class="boleto-icon">📄</div>
+                <p>O boleto será gerado após a confirmação.</p>
+                <p class="info-note">Vencimento em <strong>3 dias úteis</strong>. Pode ser pago em qualquer banco ou lotérica.</p>
+            </div>
+
+            <button class="btn-checkout" onclick="checkout()" id="checkoutBtn">Finalizar Compra</button>
+            <button class="btn-clear" onclick="clearCart()">🗑️ Esvaziar carrinho</button>
+        </aside>
+    </div>
+
+    <div class="empty-cart" id="emptyCart" style="display:none;">
+        <div class="empty-icon">🛒</div>
+        <h2>Seu carrinho está vazio</h2>
+        <p>Adicione produtos para continuar</p>
+        <button onclick="window.location.href='dashboard.html'" class="btn-shop">Ver produtos</button>
+    </div>
+</main>
+
+<div id="successModal" class="modal">
+    <div class="modal-content">
+        <div class="success-icon">✅</div>
+        <h2>Pedido confirmado!</h2>
+        <p id="successMsg"></p>
+        <button onclick="window.location.href='dashboard.html'" class="btn-back-shop">Continuar comprando</button>
+    </div>
+</div>
+
+<script src="notifications.js"></script>
+<script src="chat.js"></script>
+<script src="carrinho.js"></script>
+</body>
+</html>

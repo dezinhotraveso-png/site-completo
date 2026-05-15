@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechStore | Detalhes do Produto</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🖥️</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="produto.css">
+    <link rel="stylesheet" href="chat.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo" onclick="window.location.href='dashboard.html'">TECH<span>STORE</span></div>
+    <div class="nav-right">
+        <button class="nav-btn" onclick="window.location.href='favoritos.html'">❤️ Favoritos</button>
+        <button class="back-btn" onclick="history.back()">⬅ Voltar</button>
+        <button class="cart-btn" onclick="window.location.href='carrinho.html'">
+            🛒 Carrinho
+            <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+    </div>
+</nav>
+
+<main class="product-container">
+    <div class="product-main">
+        <div class="gallery-section">
+            <div class="thumbnails" id="thumbContainer"></div>
+            <div class="main-image">
+                <img id="mainImg" src="" alt="Produto">
+            </div>
+        </div>
+
+        <div class="details-section">
+            <h2>O que você precisa saber</h2>
+            <ul id="featuresList"></ul>
+        </div>
+
+        <!-- AVALIAÇÕES -->
+        <div class="reviews-section">
+            <div class="reviews-header">
+                <h2>Opiniões dos compradores</h2>
+                <div class="avg-rating" id="avgRating"></div>
+            </div>
+            <div id="reviewsList"></div>
+
+            <div class="review-form-box" id="reviewFormBox">
+                <h3>✍️ Deixe sua avaliação</h3>
+                <div class="star-selector" id="starSelector">
+                    <span class="star-opt" data-v="1" onclick="selectStar(1)">★</span>
+                    <span class="star-opt" data-v="2" onclick="selectStar(2)">★</span>
+                    <span class="star-opt" data-v="3" onclick="selectStar(3)">★</span>
+                    <span class="star-opt" data-v="4" onclick="selectStar(4)">★</span>
+                    <span class="star-opt" data-v="5" onclick="selectStar(5)">★</span>
+                    <span class="star-label" id="starLabel">Selecione uma nota</span>
+                </div>
+                <input type="text" id="reviewName" placeholder="Seu nome (opcional)" class="review-input">
+                <textarea id="reviewText" placeholder="Conte sua experiência com o produto..." class="review-textarea" rows="3"></textarea>
+                <button onclick="submitReview()" class="btn-review-submit">Publicar Avaliação</button>
+                <p class="review-msg" id="reviewMsg"></p>
+            </div>
+        </div>
+    </div>
+
+    <aside class="purchase-card">
+        <p class="condition">Novo | +100 vendidos</p>
+        <h1 id="pTitle">Nome do Produto</h1>
+
+        <!-- FAVORITE BUTTON -->
+        <button class="fav-toggle-btn" id="favToggleBtn" onclick="toggleFavorite()">🤍 Adicionar aos Favoritos</button>
+
+        <div class="price-tag">
+            <span class="currency">R$</span>
+            <span class="amount" id="pPrice">0,00</span>
+        </div>
+
+        <div class="payment-info">
+            <p>💳 em <strong>10x sem juros</strong></p>
+            <p>💠 5% de desconto no <strong>Pix</strong></p>
+        </div>
+
+        <div class="shipping-info">
+            <p>🚚 Frete <strong>grátis</strong> para todo Brasil</p>
+            <span>Benefício TechStore Envios</span>
+        </div>
+
+        <div class="qty-selector">
+            <span>Quantidade</span>
+            <div class="qty-controls">
+                <button class="qty-btn" onclick="changeQty(-1)">−</button>
+                <span class="qty-value" id="qtyValue">1</span>
+                <button class="qty-btn" onclick="changeQty(1)">+</button>
+            </div>
+        </div>
+
+        <button class="buy-now" onclick="buyNow()">Comprar agora</button>
+        <button class="add-cart" onclick="addToCart()">🛒 Adicionar ao carrinho</button>
+        <p class="added-msg" id="addedMsg"></p>
+    </aside>
+</main>
+
+<script src="notifications.js"></script>
+<script src="chat.js"></script>
+<script src="produto.js"></script>
+</body>
+</html>

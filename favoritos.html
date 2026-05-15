@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechStore | Favoritos</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❤️</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="favoritos.css">
+    <link rel="stylesheet" href="chat.css">
+</head>
+<body onload="loadFavoritos()">
+
+<nav class="navbar">
+    <div class="logo" onclick="window.location.href='dashboard.html'">TECH<span>STORE</span></div>
+    <div class="nav-right">
+        <button class="nav-btn" onclick="window.location.href='dashboard.html'">🏠 Loja</button>
+        <button class="nav-btn" onclick="window.location.href='pedidos.html'">📦 Pedidos</button>
+        <button class="nav-btn cart" onclick="window.location.href='carrinho.html'">
+            🛒 Carrinho
+            <span class="cart-badge-nav" id="cartBadge" style="display:none;">0</span>
+        </button>
+        <button class="nav-btn logout" onclick="logout()">Sair</button>
+    </div>
+</nav>
+
+<main class="container">
+    <div class="page-header">
+        <div class="page-title-row">
+            <h1>❤️ Meus Favoritos</h1>
+            <button class="btn-clear-favs" id="btnClearFavs" onclick="clearAllFavs()" style="display:none;">🗑️ Limpar tudo</button>
+        </div>
+        <p id="favSubtitle">Seus produtos salvos aparecem aqui</p>
+    </div>
+
+    <div id="favGrid" class="fav-grid"></div>
+
+    <div id="emptyFavs" class="empty-state" style="display:none;">
+        <div class="empty-icon">💔</div>
+        <h2>Nenhum favorito ainda</h2>
+        <p>Clique no coração ❤️ em qualquer produto para salvar aqui.</p>
+        <button onclick="window.location.href='dashboard.html'" class="btn-shop">Ver produtos</button>
+    </div>
+</main>
+
+<script src="notifications.js"></script>
+<script src="chat.js"></script>
+<script src="favoritos.js"></script>
+</body>
+</html>

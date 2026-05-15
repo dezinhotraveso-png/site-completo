@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechStore | Cadastrar Produto</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📦</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="vender.css">
+    <link rel="stylesheet" href="chat.css">
+</head>
+<body onload="initVender()">
+
+<nav class="navbar">
+    <div class="logo" onclick="window.location.href='dashboard.html'">TECH<span>STORE</span></div>
+    <div class="nav-right">
+        <span id="roleTag" class="role-tag"></span>
+        <button class="back-btn" onclick="window.location.href='dashboard.html'">⬅ Voltar</button>
+    </div>
+</nav>
+
+<main class="vender-container">
+    <div class="vender-header">
+        <h1>📦 Cadastrar Produto</h1>
+        <p>Preencha as informações do produto para publicá-lo na loja.</p>
+    </div>
+
+    <form class="vender-form" onsubmit="submitProduct(event)">
+
+        <div class="form-section">
+            <h3>Informações Básicas</h3>
+            <div class="form-grid">
+                <div class="form-group full">
+                    <label>Nome do Produto *</label>
+                    <input type="text" id="pName" placeholder="Ex: Teclado Mecânico HyperX Alloy Origins" required>
+                </div>
+                <div class="form-group">
+                    <label>Preço (R$) *</label>
+                    <input type="number" id="pPrice" placeholder="0.00" step="0.01" min="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label>Categoria *</label>
+                    <select id="pCategory" required>
+                        <option value="">Selecione...</option>
+                        <option>Teclados</option>
+                        <option>Mouses</option>
+                        <option>Monitores</option>
+                        <option>Headsets</option>
+                        <option>Smartwatches</option>
+                        <option>Notebooks</option>
+                        <option>Periféricos</option>
+                        <option>Setups</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>Imagem do Produto</h3>
+            <div class="form-group full">
+                <label>URL da Imagem *</label>
+                <div class="img-url-row">
+                    <input type="url" id="pImage" placeholder="https://..." oninput="previewImage()">
+                    <button type="button" class="btn-preview-img" onclick="previewImage()">Visualizar</button>
+                </div>
+            </div>
+            <div class="img-preview-box" id="imgPreviewBox" style="display:none;">
+                <img id="imgPreview" src="" alt="Preview">
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>Detalhes do Produto</h3>
+            <div class="form-group full">
+                <label>Descrição / Características <small>(uma por linha)</small></label>
+                <textarea id="pFeatures" rows="5" placeholder="Ex:&#10;Switch Cherry MX Red&#10;Iluminação RGB personalizável&#10;Garantia de 2 anos&#10;Cabo removível USB-C"></textarea>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>Estoque e Condição</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Condição</label>
+                    <select id="pCondition">
+                        <option value="Novo">Novo</option>
+                        <option value="Seminovo">Seminovo</option>
+                        <option value="Recondicionado">Recondicionado</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Quantidade em Estoque</label>
+                    <input type="number" id="pStock" placeholder="Ex: 50" min="1" value="1">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="button" class="btn-cancel" onclick="window.location.href='dashboard.html'">Cancelar</button>
+            <button type="submit" class="btn-publish">🚀 Publicar Produto</button>
+        </div>
+    </form>
+
+    <div id="successMsg" class="success-msg" style="display:none;">
+        <div class="success-box">
+            <div class="success-icon">✅</div>
+            <h2>Produto publicado!</h2>
+            <p>Seu produto já está disponível na loja.</p>
+            <div class="success-actions">
+                <button onclick="resetForm()" class="btn-add-another">+ Adicionar outro</button>
+                <button onclick="window.location.href='dashboard.html'" class="btn-go-store">Ver na loja</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="notifications.js"></script>
+<script src="chat.js"></script>
+<script src="vender.js"></script>
+</body>
+</html>
