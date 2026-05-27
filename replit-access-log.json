@@ -28,5 +28,11 @@
     "timestamp": "2026-05-27T17:42:47.517Z",
     "referrer": null,
     "ip": "::ffff:127.0.0.1"
+  },
+  {
+    "page": "/admin.html",
+    "timestamp": "2026-05-27T17:43:07.003Z",
+    "referrer": null,
+    "ip": "::ffff:127.0.0.1"
   }
 ]
