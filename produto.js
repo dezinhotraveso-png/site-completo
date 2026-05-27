@@ -59,6 +59,8 @@ function loadProduct() {
         title: produtoSalvo ? produtoSalvo.name : "Console PlayStation 5 Slim",
         price: produtoSalvo ? produtoSalvo.price : 3799.90,
         category: produtoSalvo ? (produtoSalvo.category || 'Geral') : 'Geral',
+        stock: produtoSalvo ? (produtoSalvo.stock || 0) : 0,
+        condition: produtoSalvo ? (produtoSalvo.condition || 'Novo') : 'Novo',
         images: produtoSalvo
             ? [produtoSalvo.image]
             : ["https://images.unsplash.com/photo-1607853202273-797f1c22a38e?w=500&auto=format&fit=crop"],
@@ -73,6 +75,16 @@ function loadProduct() {
     document.getElementById("pTitle").innerText = currentProduct.title;
     document.getElementById("pPrice").innerText = currentProduct.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
     document.title = `TechStore | ${currentProduct.title}`;
+
+    const stockEl = document.getElementById("pStock");
+    if (stockEl) {
+        const s = currentProduct.stock || 0;
+        stockEl.innerHTML = s > 0
+            ? `<span style="color:#00ff88;">📦 ${s} em estoque</span>`
+            : `<span style="color:#ff4466;">🔴 Esgotado</span>`;
+    }
+    const condEl = document.getElementById("pCondition");
+    if (condEl) condEl.innerText = currentProduct.condition || "Novo";
 
     const thumbContainer = document.getElementById("thumbContainer");
     const mainImg = document.getElementById("mainImg");
@@ -108,7 +120,8 @@ function loadProduct() {
 
 /* ---- CART ---- */
 function changeQty(delta) {
-    qty = Math.max(1, qty + delta);
+    const stock = currentProduct ? (currentProduct.stock || 0) : 0;
+    qty = Math.max(1, Math.min(qty + delta, stock));
     document.getElementById("qtyValue").innerText = qty;
 }
 
@@ -116,6 +129,18 @@ function addToCart() {
     if (!currentProduct) return;
     const cart = JSON.parse(localStorage.getItem('tech_cart')) || [];
     const existing = cart.find(item => item.id === currentProduct.id);
+    const currentQty = existing ? existing.qty : 0;
+    const stock = currentProduct.stock || 0;
+
+    if (stock <= 0) {
+        showToast("🔴 Produto esgotado! Não há unidades disponíveis.", "error", 3000);
+        return;
+    }
+    if (currentQty + qty > stock) {
+        showToast(`📦 Só temos ${stock} unidades em estoque. Você já tem ${currentQty} no carrinho.`, "error", 3000);
+        return;
+    }
+
     if (existing) { existing.qty += qty; }
     else {
         cart.push({ id: currentProduct.id, name: currentProduct.title, price: currentProduct.price, image: currentProduct.images[0], qty });
