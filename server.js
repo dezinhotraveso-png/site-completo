@@ -1,50 +1,100 @@
-const http = require('http');
-const fs = require('fs');
-const path = require('path');
+const express = require("express");
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const cors = require("cors");
+const path = require("path");
 
-const PORT = 5000;
-const HOST = '0.0.0.0';
+const app = express();
 
-const mimeTypes = {
-  '.html': 'text/html',
-  '.css': 'text/css',
-  '.js': 'application/javascript',
-  '.json': 'application/json',
-  '.png': 'image/png',
-  '.jpg': 'image/jpeg',
-  '.jpeg': 'image/jpeg',
-  '.gif': 'image/gif',
-  '.svg': 'image/svg+xml',
-  '.ico': 'image/x-icon',
-  '.woff': 'font/woff',
-  '.woff2': 'font/woff2',
-  '.ttf': 'font/ttf',
-};
+const PORT = process.env.PORT || 5000;
 
-const server = http.createServer((req, res) => {
-  let urlPath = req.url.split('?')[0];
-  if (urlPath === '/') urlPath = '/index.html';
+app.use(express.json());
+app.use(cors());
 
-  const filePath = path.join(__dirname, urlPath);
-  const ext = path.extname(filePath).toLowerCase();
-  const contentType = mimeTypes[ext] || 'application/octet-stream';
+app.use(express.static(path.join(__dirname, "public")));
 
-  fs.readFile(filePath, (err, data) => {
-    if (err) {
-      if (err.code === 'ENOENT') {
-        res.writeHead(404, { 'Content-Type': 'text/plain' });
-        res.end('404 Not Found');
-      } else {
-        res.writeHead(500, { 'Content-Type': 'text/plain' });
-        res.end('500 Internal Server Error');
-      }
-      return;
-    }
-    res.writeHead(200, { 'Content-Type': contentType });
-    res.end(data);
-  });
+// CONEXÃO MONGODB
+mongoose.connect("SUA_URL_MONGODB")
+.then(() => {
+    console.log("MongoDB conectado");
+})
+.catch((err) => {
+    console.log(err);
 });
 
-server.listen(PORT, HOST, () => {
-  console.log(`TechStore running at http://${HOST}:${PORT}`);
+// MODELO DE USUÁRIO
+const User = mongoose.model("User", {
+    email: String,
+    password: String
+});
+
+// CADASTRO
+app.post("/register", async (req, res) => {
+
+    const { email, password } = req.body;
+
+    const userExists = await User.findOne({ email });
+
+    if(userExists){
+        return res.status(400).json({
+            message: "Usuário já existe"
+        });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = new User({
+        email,
+        password: hashedPassword
+    });
+
+    await user.save();
+
+    res.json({
+        message: "Conta criada"
+    });
+
+});
+
+// LOGIN
+app.post("/login", async (req, res) => {
+
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if(!user){
+        return res.status(400).json({
+            message: "Usuário não encontrado"
+        });
+    }
+
+    const validPassword = await bcrypt.compare(password, user.password);
+
+    if(!validPassword){
+        return res.status(400).json({
+            message: "Senha incorreta"
+        });
+    }
+
+    const token = jwt.sign(
+        { id: user._id },
+        "SEGREDO_JWT"
+    );
+
+    res.json({
+        message: "Login realizado",
+        token
+    });
+
+});
+
+// INDEX
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
+app.listen(PORT, () => {
+    console.log(`Servidor rodando na porta ${PORT}`);
 });
