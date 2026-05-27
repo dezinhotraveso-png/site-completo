@@ -1,3 +1,9 @@
 {
-  "tech_products": "[]"
+  "products": [],
+  "users": [],
+  "orders": [],
+  "favorites": {},
+  "reviews": {},
+  "cart": {},
+  "lastSync": "2026-05-27T18:02:33.716Z"
 }
