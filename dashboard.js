@@ -1,37 +1,4 @@
-const produtosPadrao = [
-    { id: 101, name: "Teclado Mecânico HyperX Alloy", price: 549.90, category: "Teclados", image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=500&auto=format&fit=crop" },
-    { id: 102, name: "Teclado Gamer Razer BlackWidow V3", price: 899.00, category: "Teclados", image: "https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=500&auto=format&fit=crop" },
-    { id: 103, name: "Teclado Redragon Kumara RGB", price: 249.90, category: "Teclados", image: "https://images.unsplash.com/photo-1541140532154-b024d705b90a?w=500&auto=format&fit=crop" },
-    { id: 104, name: "Teclado Sem Fio Logitech MX Keys", price: 749.00, category: "Teclados", image: "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500&auto=format&fit=crop" },
-    { id: 201, name: "Mouse Gamer Logitech G502 Hero", price: 349.90, category: "Mouses", image: "https://images.unsplash.com/photo-1527814050087-3793815479db?w=500&auto=format&fit=crop" },
-    { id: 202, name: "Mouse Razer DeathAdder V3", price: 499.00, category: "Mouses", image: "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=500&auto=format&fit=crop" },
-    { id: 203, name: "Mouse Sem Fio MX Master 3", price: 699.90, category: "Mouses", image: "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=500&auto=format&fit=crop" },
-    { id: 204, name: "Mouse HyperX Pulsefire Haste", price: 279.00, category: "Mouses", image: "https://images.unsplash.com/photo-1598986646512-9330bcc4c0dc?w=500&auto=format&fit=crop" },
-    { id: 301, name: "Monitor LG 27\" 4K IPS 144Hz", price: 3499.00, category: "Monitores", image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=500&auto=format&fit=crop" },
-    { id: 302, name: "Monitor Samsung Odyssey G7 32\"", price: 4299.00, category: "Monitores", image: "https://images.unsplash.com/photo-1547082299-de196ea013d6?w=500&auto=format&fit=crop" },
-    { id: 303, name: "Monitor Dell UltraSharp 24\" FHD", price: 1899.00, category: "Monitores", image: "https://images.unsplash.com/photo-1586210579191-33b45e38fa2c?w=500&auto=format&fit=crop" },
-    { id: 304, name: "Monitor Ultrawide AOC 34\" Curvo", price: 2799.00, category: "Monitores", image: "https://images.unsplash.com/photo-1593640408182-31c228a7d420?w=500&auto=format&fit=crop" },
-    { id: 401, name: "Headset HyperX Cloud II 7.1", price: 599.90, category: "Headsets", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&auto=format&fit=crop" },
-    { id: 402, name: "Headset Razer Kraken X USB", price: 399.00, category: "Headsets", image: "https://images.unsplash.com/photo-1599669454699-248893623440?w=500&auto=format&fit=crop" },
-    { id: 403, name: "Headset Sem Fio Sony WH-1000XM5", price: 1899.00, category: "Headsets", image: "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=500&auto=format&fit=crop" },
-    { id: 404, name: "Headset Gamer JBL Quantum 910", price: 1299.00, category: "Headsets", image: "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=500&auto=format&fit=crop" },
-    { id: 501, name: "Smartwatch Samsung Galaxy Watch 6", price: 1499.00, category: "Smartwatches", image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500&auto=format&fit=crop" },
-    { id: 502, name: "Smartwatch Apple Watch SE 2ª Gen", price: 2699.00, category: "Smartwatches", image: "https://images.unsplash.com/photo-1617625802912-cde586faf749?w=500&auto=format&fit=crop" },
-    { id: 503, name: "Smartwatch Garmin Forerunner 265", price: 2999.00, category: "Smartwatches", image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop" },
-    { id: 504, name: "Smartwatch Xiaomi Band 8 Pro", price: 349.90, category: "Smartwatches", image: "https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?w=500&auto=format&fit=crop" },
-    { id: 601, name: "Notebook Gamer Acer Nitro 5 RTX 4060", price: 5999.00, category: "Notebooks", image: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=500&auto=format&fit=crop" },
-    { id: 602, name: "Notebook Dell XPS 15 OLED i9", price: 12999.00, category: "Notebooks", image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500&auto=format&fit=crop" },
-    { id: 603, name: "Notebook MacBook Air M3 13\"", price: 10499.00, category: "Notebooks", image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500&auto=format&fit=crop" },
-    { id: 604, name: "Notebook Lenovo IdeaPad Gaming 3", price: 4299.00, category: "Notebooks", image: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?w=500&auto=format&fit=crop" },
-    { id: 701, name: "Webcam Logitech C920 Full HD", price: 499.00, category: "Periféricos", image: "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=500&auto=format&fit=crop" },
-    { id: 702, name: "Microfone Blue Yeti USB", price: 899.00, category: "Periféricos", image: "https://images.unsplash.com/photo-1593078165899-c7d2ac0d6aea?w=500&auto=format&fit=crop" },
-    { id: 703, name: "Mousepad Gamer XL 90x40cm", price: 129.90, category: "Periféricos", image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=500&auto=format&fit=crop" },
-    { id: 704, name: "Hub USB-C 7 em 1 Anker", price: 299.00, category: "Periféricos", image: "https://images.unsplash.com/photo-1625842268584-8f3296236761?w=500&auto=format&fit=crop" },
-    { id: 801, name: "Setup Gamer Pro Completo", price: 12500.00, category: "Setups", image: "https://images.unsplash.com/photo-1593305841991-05c297ba4575?w=500&auto=format&fit=crop" },
-    { id: 802, name: "Setup Streamer RGB Edition", price: 8900.00, category: "Setups", image: "https://images.unsplash.com/photo-1603386329225-868f9b1ee6c9?w=500&auto=format&fit=crop" },
-    { id: 803, name: "Setup Home Office Premium", price: 6500.00, category: "Setups", image: "https://images.unsplash.com/photo-1547394765-185e1e68f34e?w=500&auto=format&fit=crop" },
-    { id: 804, name: "Setup E-Sports Profissional", price: 15000.00, category: "Setups", image: "https://images.unsplash.com/photo-1616763355548-1b606f439f86?w=500&auto=format&fit=crop" },
-];
+const produtosPadrao = []; // Limpo — produtos serão criados pelo admin/vendedor
 
 let products = [];
 let activeCategory = "Todos";
@@ -103,8 +70,9 @@ function initDashboard() {
     if (loggedUser.role === "admin") {
         if (roleTag) { roleTag.innerText = "Admin"; roleTag.style.display = "inline-block"; }
         if (btnAdmin) btnAdmin.style.display = "inline-flex";
+        const btnUpdates = document.getElementById("btnUpdates");
+        if (btnUpdates) btnUpdates.style.display = "inline-flex";
         if (btnAdd) btnAdd.style.display = "inline-flex";
-        if (adminPanel) adminPanel.style.display = "block";
     } else if (loggedUser.role === "seller") {
         if (roleTag) { roleTag.innerText = "Vendedor"; roleTag.style.display = "inline-block"; }
         if (btnAdd) btnAdd.style.display = "inline-flex";
@@ -114,12 +82,13 @@ function initDashboard() {
     try {
         const raw = localStorage.getItem('tech_products');
         const saved = raw ? JSON.parse(raw) : [];
-        const valid = Array.isArray(saved) && saved.length > 0 && saved[0].category;
-        products = valid ? saved : produtosPadrao;
+        products = Array.isArray(saved) ? saved : [];
     } catch(e) {
-        products = produtosPadrao;
+        products = [];
     }
-    localStorage.setItem('tech_products', JSON.stringify(products));
+    if (products.length === 0) {
+        localStorage.setItem('tech_products', JSON.stringify([]));
+    }
 
     renderProducts();
     renderRecommendations();
@@ -198,10 +167,15 @@ function scrollRecs(dir) {
 function addToCartQuick(id) {
     const p = products.find(x => x.id === id);
     if (!p) return;
+    const stock = p.stock || 0;
+    if (stock <= 0) { showToast("🔴 Produto esgotado!", "error", 2500); return; }
     try {
         const cart = JSON.parse(localStorage.getItem('tech_cart')) || [];
         const existing = cart.find(item => item.id === p.id);
-        if (existing) { existing.qty += 1; }
+        if (existing) {
+            if (existing.qty + 1 > stock) { showToast(`📦 Só temos ${stock} unidades em estoque.`, "error", 2500); return; }
+            existing.qty += 1;
+        }
         else { cart.push({ id: p.id, name: p.name, price: p.price, image: p.image, qty: 1 }); }
         localStorage.setItem('tech_cart', JSON.stringify(cart));
     } catch(e) {}
@@ -312,6 +286,7 @@ function renderProducts() {
             </div>
             ${ratingHtml}
             <span class="price">R$ ${p.price.toLocaleString('pt-BR', {minimumFractionDigits:2})}</span>
+            <span class="stock-badge">${(p.stock || 0) > 0 ? `<span style="color:#00ff88;font-size:11px;">📦 ${p.stock} em estoque</span>` : `<span style="color:#ff4466;font-size:11px;">🔴 Esgotado</span>`}</span>
             <div class="card-btns">
                 <button class="btn-buy" onclick="verProduto(${p.id})">👁 Ver Produto</button>
                 <button class="btn-compare-add ${inCompare ? 'added' : ''}" onclick="toggleCompare(${p.id})">
