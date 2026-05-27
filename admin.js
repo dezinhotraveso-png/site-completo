@@ -106,8 +106,11 @@ function renderProducts() {
     if (query) products = products.filter(p => p.name.toLowerCase().includes(query) || (p.category || "").toLowerCase().includes(query));
 
     const list = document.getElementById("productsList");
+    const countEl = document.getElementById("productCount");
+    if (countEl) countEl.innerText = `(${products.length})`;
+
     if (products.length === 0) {
-        list.innerHTML = `<div class="empty-state"><p>Nenhum produto encontrado.</p></div>`;
+        list.innerHTML = `<div class="empty-state"><p>📭 Nenhum produto cadastrado ainda.</p></div>`;
         return;
     }
 
@@ -119,12 +122,30 @@ function renderProducts() {
                 <div class="product-meta">
                     <span class="cat-pill">${p.category || "Geral"}</span>
                     <span class="product-price">R$ ${Number(p.price).toLocaleString('pt-BR', {minimumFractionDigits:2})}</span>
+                    <span class="stock-pill" style="background:${(p.stock||0)>0?'rgba(0,255,136,0.12)':'rgba(255,68,102,0.12)'};color:${(p.stock||0)>0?'#00ff88':'#ff4466'};padding:2px 8px;border-radius:6px;font-size:11px;">📦 ${p.stock || 0} em estoque</span>
                     ${p.sellerName ? `<span class="seller-tag">por ${p.sellerName}</span>` : ""}
                 </div>
             </div>
             <button class="btn-delete-product" onclick="deleteProduct(${p.id})">🗑 Remover</button>
         </div>
     `).join('');
+}
+
+function deleteAllProducts() {
+    if (!confirm("ATENÇÃO! Isso vai apagar TODOS os produtos da loja. Tem certeza?")) return;
+    if (!confirm("Confirma definitivamente? Todos os produtos serão removidos.")) return;
+
+    const countBefore = (JSON.parse(localStorage.getItem("tech_products")) || []).length;
+    localStorage.setItem("tech_products", JSON.stringify([]));
+
+    showToast("🗑 Todos os produtos foram removidos!", "info", 3500);
+    loadStats();
+    renderProducts();
+
+    // Notificar o bot de suporte
+    if (window.botNotify) {
+        window.botNotify(`📋 <strong>Ação do Admin:</strong> ${countBefore} produto${countBefore !== 1 ? 's' : ''} apagado${countBefore !== 1 ? 's' : ''} da loja. O catálogo está vazio agora. Aguardando novos cadastros...`);
+    }
 }
 
 function deleteProduct(id) {
