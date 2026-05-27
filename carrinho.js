@@ -1,6 +1,7 @@
 let cart = [];
 let appliedCoupon = null;
 let selectedFrete = null;
+let selectedShipping = "techstore"; // techstore (gratis) ou correios (mais caro)
 
 /* ============================
    COUPONS
@@ -97,15 +98,18 @@ function calcFrete() {
         const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
         const freeAbove = 299;
 
+        const correiosCost = selectedShipping === "correios" ? (expressCost + 12.50) : 0;
+        const correiosLabel = selectedShipping === "correios" ? "Correios (Sedex)" : "Frete Grátis";
+
         optEl.innerHTML = `
             <div class="frete-option" onclick="selectFreteOption('gratis', 0)" id="frete-gratis">
                 <div class="frete-opt-radio"><div class="frete-radio-inner"></div></div>
                 <div class="frete-opt-info">
-                    <span class="frete-opt-name">🚚 Frete Grátis</span>
+                    <span class="frete-opt-name">🚚 ${correiosLabel}</span>
                     <span class="frete-opt-days">${economyDays}</span>
                 </div>
-                <span class="frete-opt-price ${subtotal >= freeAbove ? 'free' : 'cond'}">
-                    ${subtotal >= freeAbove ? 'GRÁTIS' : `Grátis acima de R$ ${freeAbove},00`}
+                <span class="frete-opt-price ${subtotal >= freeAbove && selectedShipping === 'techstore' ? 'free' : 'cond'}">
+                    ${selectedShipping === 'correios' ? ('R$ ' + correiosCost.toFixed(2).replace('.', ',')) : (subtotal >= freeAbove ? 'GRÁTIS' : `Grátis acima de R$ ${freeAbove},00`)}
                 </span>
             </div>
             <div class="frete-option" onclick="selectFreteOption('expresso', ${expressCost})" id="frete-expresso">
@@ -126,7 +130,7 @@ function calcFrete() {
             </div>
         `;
 
-        selectFreteOption('gratis', 0);
+        selectFreteOption('gratis', selectedShipping === 'correios' ? correiosCost : 0);
     }, 700);
 }
 
@@ -161,8 +165,12 @@ function renderCart() {
     layoutEl.style.display = "grid";
     itemsEl.innerHTML = "";
 
+    const allProducts = JSON.parse(localStorage.getItem('tech_products')) || [];
     cart.forEach((item, index) => {
         const itemTotal = item.price * item.qty;
+        const product = allProducts.find(p => p.id === item.id);
+        const stock = product ? (product.stock || 0) : 0;
+        const stockHtml = stock > 0 ? `<span style="color:#00ff88;font-size:12px;">\ud83d\udce6 ${stock} em estoque</span>` : `<span style="color:#ff4466;font-size:12px;">\ud83d\udd34 Esgotado</span>`;
         itemsEl.innerHTML += `
             <div class="cart-card">
                 <img src="${item.image}" alt="${item.name}">
@@ -170,6 +178,7 @@ function renderCart() {
                     <h3>${item.name}</h3>
                     <p class="item-price">R$ ${item.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
                     <p class="item-total">Subtotal: R$ ${itemTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                    ${stockHtml}
                 </div>
                 <div class="cart-actions">
                     <div class="qty-controls">
@@ -187,7 +196,13 @@ function renderCart() {
 }
 
 function changeQty(index, delta) {
-    cart[index].qty = Math.max(1, cart[index].qty + delta);
+    const item = cart[index];
+    const allProducts = JSON.parse(localStorage.getItem('tech_products')) || [];
+    const product = allProducts.find(p => p.id === item.id);
+    const stock = product ? (product.stock || 0) : 0;
+    const newQty = item.qty + delta;
+    if (newQty > stock) { showToast(`\ud83d\udce6 S\u00f3 temos ${stock} unidades em estoque.`, "error", 2500); return; }
+    cart[index].qty = Math.max(1, newQty);
     saveCart(); renderCart();
 }
 
@@ -239,6 +254,16 @@ function updateSummary() {
         document.getElementById("freteLabel").className = "free";
     }
 
+    const shipExtraRow = document.getElementById("shipExtraRow");
+    if (shipExtraRow) {
+        if (selectedShipping === 'correios') {
+            shipExtraRow.style.display = "flex";
+            document.getElementById("shipExtraValue").innerText = `+ R$ 12,50`;
+        } else {
+            shipExtraRow.style.display = "none";
+        }
+    }
+
     const currentMethod = document.querySelector('input[name="pay"]:checked')?.value || "pix";
     const baseTotal = afterDiscount + freteCost;
     const total = currentMethod === "pix" ? baseTotal * 0.95 : baseTotal;
@@ -257,6 +282,16 @@ function selectPay(method) {
     document.getElementById("pixInfo").style.display = method === "pix" ? "block" : "none";
     document.getElementById("cardInfo").style.display = method === "credito" ? "block" : "none";
     document.getElementById("boletoInfo").style.display = method === "boleto" ? "block" : "none";
+    updateSummary();
+}
+
+function selectShipping(method) {
+    selectedShipping = method;
+    document.getElementById('shipTech').checked = (method === 'techstore');
+    document.getElementById('shipCorreios').checked = (method === 'correios');
+    // Recalcular frete se CEP já digitado
+    const cep = document.getElementById("cepInput").value.replace(/\D/g, '');
+    if (cep.length === 8) { calcFrete(); }
     updateSummary();
 }
 
@@ -362,10 +397,12 @@ function checkout() {
     }
 
     const labels = { pix: "PIX (5% OFF)", credito: "Cartão de Crédito", boleto: "Boleto Bancário" };
-    saveOrder(user, method, total);
+    const shippingLabel = selectedShipping === 'correios' ? " (Correios)" : " (TechStore Envios)";
+    saveOrder(user, method, total, selectedShipping);
 
     document.getElementById("successMsg").innerHTML = `
         Pagamento via <strong>${labels[method]}</strong> confirmado!<br>
+        Entrega: <strong>${selectedShipping === 'correios' ? '📮 Correios' : '🚚 TechStore Envios'}</strong><br>
         Total: <strong>R$ ${total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</strong><br>
         <small style="color:#aaa">${extraInfo}</small><br><br>
         Seus produtos chegam em breve. 🚀<br>
@@ -377,13 +414,21 @@ function checkout() {
     document.getElementById("successModal").classList.add("active");
 }
 
-function saveOrder(user, method, total) {
+function saveOrder(user, method, total, shippingMethod) {
     const allOrders = JSON.parse(localStorage.getItem('tech_orders')) || [];
     const orderId = "TC" + Date.now().toString().slice(-6);
     const now = new Date();
     const dateStr = now.toLocaleDateString('pt-BR') + " às " + now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-    allOrders.push({ id: orderId, user, date: dateStr, items: cart.map(item => ({ ...item })), total, payment: method, status: "processando" });
+    allOrders.push({ id: orderId, user, date: dateStr, items: cart.map(item => ({ ...item })), total, payment: method, shipping: shippingMethod || "techstore", status: "processando" });
     localStorage.setItem('tech_orders', JSON.stringify(allOrders));
+
+    // Deduzir estoque
+    const products = JSON.parse(localStorage.getItem('tech_products')) || [];
+    cart.forEach(item => {
+        const p = products.find(x => x.id === item.id);
+        if (p) { p.stock = Math.max(0, (p.stock || 0) - item.qty); }
+    });
+    localStorage.setItem('tech_products', JSON.stringify(products));
 }
 
 function showError(msg) {
