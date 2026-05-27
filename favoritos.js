@@ -33,9 +33,15 @@ function clearAllFavs() {
 }
 
 function addToCart(product) {
+    const products = JSON.parse(localStorage.getItem('tech_products')) || [];
+    const p = products.find(x => x.id === product.id);
+    const stock = p ? (p.stock || 0) : 0;
+    if (stock <= 0) { showToast("🔴 Produto esgotado!", "error", 2500); return; }
+
     const cart = JSON.parse(localStorage.getItem('tech_cart')) || [];
     const existing = cart.find(item => item.id === product.id);
     if (existing) {
+        if (existing.qty + 1 > stock) { showToast(`📦 Só temos ${stock} unidades em estoque.`, "error", 2500); return; }
         existing.qty += 1;
     } else {
         cart.push({ id: product.id, name: product.name, price: product.price, image: product.image, qty: 1 });
