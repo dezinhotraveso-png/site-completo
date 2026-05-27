@@ -1,3 +1,27 @@
+/* ---- CUSTOM CONFIRM MODAL ---- */
+function customConfirm(title, msg, icon, onConfirm) {
+    const modal = document.getElementById("confirmModal");
+    document.getElementById("confirmTitle").innerText = title;
+    document.getElementById("confirmMsg").innerText = msg;
+    document.getElementById("confirmIcon").innerText = icon || "⚠️";
+    modal.style.display = "flex";
+
+    const okBtn = document.getElementById("confirmOk");
+    const cancelBtn = document.getElementById("confirmCancel");
+
+    function close() {
+        modal.style.display = "none";
+        okBtn.removeEventListener("click", handleOk);
+        cancelBtn.removeEventListener("click", handleCancel);
+    }
+    function handleOk() { close(); onConfirm(); }
+    function handleCancel() { close(); }
+
+    okBtn.addEventListener("click", handleOk);
+    cancelBtn.addEventListener("click", handleCancel);
+    modal.addEventListener("click", function(e) { if (e.target === modal) handleCancel(); }, { once: true });
+}
+
 function getUsers() { return JSON.parse(localStorage.getItem("tech_users_v2")) || []; }
 function saveUsers(users) { localStorage.setItem("tech_users_v2", JSON.stringify(users)); }
 function getLoggedUser() {
@@ -132,31 +156,43 @@ function renderProducts() {
 }
 
 function deleteAllProducts() {
-    if (!confirm("ATENÇÃO! Isso vai apagar TODOS os produtos da loja. Tem certeza?")) return;
-    if (!confirm("Confirma definitivamente? Todos os produtos serão removidos.")) return;
-
     const countBefore = (JSON.parse(localStorage.getItem("tech_products")) || []).length;
-    localStorage.setItem("tech_products", JSON.stringify([]));
-
-    showToast("🗑 Todos os produtos foram removidos!", "info", 3500);
-    loadStats();
-    renderProducts();
-
-    // Notificar o bot de suporte
-    if (window.botNotify) {
-        window.botNotify(`📋 <strong>Ação do Admin:</strong> ${countBefore} produto${countBefore !== 1 ? 's' : ''} apagado${countBefore !== 1 ? 's' : ''} da loja. O catálogo está vazio agora. Aguardando novos cadastros...`);
+    if (countBefore === 0) {
+        showToast("Não há produtos para apagar.", "info");
+        return;
     }
+    customConfirm(
+        "Apagar todos os produtos?",
+        `Isso vai remover permanentemente todos os ${countBefore} produto${countBefore !== 1 ? 's' : ''} da loja. Esta ação não pode ser desfeita.`,
+        "🗑️",
+        function() {
+            localStorage.setItem("tech_products", JSON.stringify([]));
+            showToast("🗑 Todos os produtos foram removidos!", "info", 3500);
+            loadStats();
+            renderProducts();
+            if (window.botNotify) {
+                window.botNotify(`📋 <strong>Ação do Admin:</strong> ${countBefore} produto${countBefore !== 1 ? 's' : ''} apagado${countBefore !== 1 ? 's' : ''} da loja. O catálogo está vazio agora. Aguardando novos cadastros...`);
+            }
+        }
+    );
 }
 
 function deleteProduct(id) {
-    if (!confirm("Tem certeza que deseja remover este produto?")) return;
     let products = JSON.parse(localStorage.getItem("tech_products")) || [];
-    const name = products.find(p => p.id === id)?.name || "Produto";
-    products = products.filter(p => p.id !== id);
-    localStorage.setItem("tech_products", JSON.stringify(products));
-    showToast(`${name} removido com sucesso.`, "info");
-    loadStats();
-    renderProducts();
+    const product = products.find(p => p.id === id);
+    const name = product?.name || "Produto";
+    customConfirm(
+        "Remover produto?",
+        `"${name}" será removido permanentemente da loja.`,
+        "🗑️",
+        function() {
+            products = products.filter(p => p.id !== id);
+            localStorage.setItem("tech_products", JSON.stringify(products));
+            showToast(`${name} removido com sucesso.`, "info");
+            loadStats();
+            renderProducts();
+        }
+    );
 }
 
 /* ---- ORDERS ---- */
