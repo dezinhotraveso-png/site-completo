@@ -71,10 +71,11 @@ function showAdminTab(tab) {
     document.getElementById("tab-" + tab).style.display = "block";
     event.target.classList.add("active");
 
-    if (tab === "users") renderUsers();
-    if (tab === "products") renderProducts();
-    if (tab === "orders") renderOrders();
-    if (tab === "analytics") renderAnalytics();
+    if (tab === "users")      renderUsers();
+    if (tab === "products")   renderProducts();
+    if (tab === "orders")     renderOrders();
+    if (tab === "analytics")  renderAnalytics();
+    if (tab === "categories") renderCategories();
 }
 
 /* ---- USERS ---- */
@@ -231,6 +232,106 @@ function renderOrders() {
             </div>
         </div>
     `).join('');
+}
+
+/* ---- CATEGORIES ---- */
+const DEFAULT_CATEGORIES = [
+    { id: 1, name: "Teclados",     emoji: "⌨️" },
+    { id: 2, name: "Mouses",       emoji: "🖱️" },
+    { id: 3, name: "Monitores",    emoji: "🖥️" },
+    { id: 4, name: "Headsets",     emoji: "🎧" },
+    { id: 5, name: "Smartwatches", emoji: "⌚" },
+    { id: 6, name: "Notebooks",    emoji: "💻" },
+    { id: 7, name: "Periféricos",  emoji: "🕹️" },
+    { id: 8, name: "Setups",       emoji: "🎮" },
+];
+
+function getCategories() {
+    const stored = localStorage.getItem("tech_categories");
+    if (!stored) { saveCategories(DEFAULT_CATEGORIES); return DEFAULT_CATEGORIES; }
+    return JSON.parse(stored);
+}
+function saveCategories(cats) { localStorage.setItem("tech_categories", JSON.stringify(cats)); }
+
+function countProductsInCat(name) {
+    return (JSON.parse(localStorage.getItem("tech_products")) || []).filter(p => p.category === name).length;
+}
+
+function renderCategories() {
+    const cats = getCategories();
+    const list  = document.getElementById("catList");
+    const count = document.getElementById("catCount");
+    if (count) count.innerText = `(${cats.length})`;
+
+    if (cats.length === 0) {
+        list.innerHTML = `<div class="empty-state"><p>Nenhuma categoria cadastrada ainda.</p></div>`;
+        return;
+    }
+    list.innerHTML = cats.map(c => {
+        const n = countProductsInCat(c.name);
+        return `
+        <div class="cat-admin-row">
+            <div class="cat-admin-emoji">${c.emoji}</div>
+            <div class="cat-admin-info">
+                <span class="cat-admin-name">${c.name}</span>
+                <span class="cat-admin-count">${n} produto${n !== 1 ? 's' : ''}</span>
+            </div>
+            <button class="btn-delete-cat" onclick="deleteCategory(${c.id})" title="Excluir categoria">🗑</button>
+        </div>`;
+    }).join('');
+}
+
+function addCategory() {
+    const nameInput  = document.getElementById("newCatName");
+    const emojiInput = document.getElementById("newCatEmoji");
+    const name  = nameInput.value.trim();
+    const emoji = emojiInput.value.trim() || "📦";
+
+    if (!name) { showToast("Digite o nome da categoria.", "warning"); nameInput.focus(); return; }
+
+    const cats = getCategories();
+    if (cats.some(c => c.name.toLowerCase() === name.toLowerCase())) {
+        showToast("Essa categoria já existe.", "warning"); return;
+    }
+
+    cats.push({ id: Date.now(), name, emoji });
+    saveCategories(cats);
+    nameInput.value  = "";
+    emojiInput.value = "";
+    renderCategories();
+    showToast(`Categoria "${name}" criada! ✅`, "success");
+}
+
+function deleteCategory(id) {
+    const cats = getCategories();
+    const cat  = cats.find(c => c.id === id);
+    if (!cat) return;
+    const n = countProductsInCat(cat.name);
+    customConfirm(
+        `Excluir "${cat.name}"?`,
+        n > 0
+            ? `Essa categoria tem ${n} produto${n !== 1 ? 's' : ''}. Eles não serão excluídos, mas ficarão sem categoria.`
+            : `A categoria "${cat.name}" será removida permanentemente.`,
+        "🗑️",
+        function() {
+            saveCategories(cats.filter(c => c.id !== id));
+            renderCategories();
+            showToast(`Categoria "${cat.name}" removida.`, "info");
+        }
+    );
+}
+
+function resetDefaultCategories() {
+    customConfirm(
+        "Restaurar categorias padrão?",
+        "Todas as categorias atuais serão substituídas pelas 8 categorias padrão da TechStore.",
+        "🔄",
+        function() {
+            saveCategories(DEFAULT_CATEGORIES);
+            renderCategories();
+            showToast("Categorias restauradas para o padrão.", "success");
+        }
+    );
 }
 
 /* ---- ANALYTICS ---- */
