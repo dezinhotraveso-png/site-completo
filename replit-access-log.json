@@ -52,5 +52,11 @@
     "timestamp": "2026-05-27T17:48:20.454Z",
     "referrer": "http://localhost/vender.html",
     "ip": "::ffff:127.0.0.1"
+  },
+  {
+    "page": "/carrinho.html",
+    "timestamp": "2026-05-27T17:48:22.810Z",
+    "referrer": null,
+    "ip": "::ffff:127.0.0.1"
   }
 ]
