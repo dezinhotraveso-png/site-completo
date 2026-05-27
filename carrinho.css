@@ -100,6 +100,14 @@ body {
 .pay-item input { accent-color: #e8001d; }
 .pay-item label { cursor: pointer; font-size: 14px; }
 
+/* Shipping method selector */
+.ship-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; cursor: pointer; transition: 0.2s; margin-bottom: 8px; }
+.ship-item:hover { border-color: rgba(52,131,250,0.4); background: rgba(52,131,250,0.05); }
+.ship-item input[type="radio"] { accent-color: #3483fa; width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px; }
+.ship-item label { display: flex; flex-direction: column; cursor: pointer; }
+.ship-name { font-size: 13px; font-weight: 600; color: #ddd; }
+.ship-note { font-size: 11px; color: #555; margin-top: 2px; }
+
 .method-info { border-radius: 14px; padding: 16px; margin-bottom: 14px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.07); }
 .pix-qr { text-align: center; padding: 10px 0; }
 .qr-placeholder { border: 2px dashed rgba(255,255,255,0.1); border-radius: 12px; padding: 22px; }
