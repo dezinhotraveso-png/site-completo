@@ -90,10 +90,27 @@ function initDashboard() {
         localStorage.setItem('tech_products', JSON.stringify([]));
     }
 
+    buildCategoryDrawer();
     renderProducts();
     renderRecommendations();
     updateCartBadge();
     updateFavsBadge();
+}
+
+function buildCategoryDrawer() {
+    const list = document.getElementById("catDrawerList");
+    if (!list) return;
+    const cats = JSON.parse(localStorage.getItem("tech_categories")) || [
+        { name:"Teclados",emoji:"⌨️"},{name:"Mouses",emoji:"🖱️"},
+        {name:"Monitores",emoji:"🖥️"},{name:"Headsets",emoji:"🎧"},
+        {name:"Smartwatches",emoji:"⌚"},{name:"Notebooks",emoji:"💻"},
+        {name:"Periféricos",emoji:"🕹️"},{name:"Setups",emoji:"🎮"}
+    ];
+    list.innerHTML =
+        `<button class="cat-drawer-btn active" data-cat="Todos" onclick="setCategory('Todos')">🛍️ <span>Todos os produtos</span></button>` +
+        cats.map(c =>
+            `<button class="cat-drawer-btn" data-cat="${c.name}" onclick="setCategory('${c.name}')">${c.emoji} <span>${c.name}</span></button>`
+        ).join('');
 }
 
 function updateCartBadge() {
@@ -216,13 +233,15 @@ function setCategory(cat) {
     document.querySelectorAll(".cat-drawer-btn").forEach(btn => btn.classList.toggle("active", btn.dataset.cat === cat));
 
     /* Update hamburger label */
-    const catLabels = {
-        Todos: "Todas as categorias", Teclados: "⌨️ Teclados", Mouses: "🖱️ Mouses",
-        Monitores: "🖥️ Monitores", Headsets: "🎧 Headsets", Smartwatches: "⌚ Smartwatches",
-        Notebooks: "💻 Notebooks", "Periféricos": "🕹️ Periféricos", Setups: "🖥️ Setups"
-    };
     const labelEl = document.getElementById("activeCatLabel");
-    if (labelEl) labelEl.innerText = catLabels[cat] || cat;
+    if (labelEl) {
+        if (cat === "Todos") { labelEl.innerText = "Todas as categorias"; }
+        else {
+            const cats = JSON.parse(localStorage.getItem("tech_categories")) || [];
+            const found = cats.find(c => c.name === cat);
+            labelEl.innerText = found ? `${found.emoji} ${found.name}` : cat;
+        }
+    }
 
     closeCatDrawer();
     renderProducts();
