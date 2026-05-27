@@ -101,6 +101,17 @@
         addMessage(text, 'user');
     }
 
+    // Expor para uso externo (ex: admin apagar produtos)
+    window.botNotify = function(text) {
+        const win = document.getElementById('chatWindow');
+        const wasOpen = win && win.classList.contains('open');
+        if (!wasOpen) {
+            toggleChat();
+            firstOpen = false; // evitar mensagem de boas-vindas duplicada
+        }
+        setTimeout(() => botMessage(text), 400);
+    };
+
     function addMessage(text, type) {
         const msgs = document.getElementById('chatMessages');
         const div = document.createElement('div');
