@@ -43,6 +43,22 @@ body {
 .icon-btn.blue:hover { background: rgba(52,131,250,0.12); border-color: rgba(52,131,250,0.5); }
 .icon-btn.green { border-color: rgba(0,255,136,0.25); font-size: 20px; font-weight: 700; }
 .icon-btn.green:hover { background: rgba(0,255,136,0.1); border-color: rgba(0,255,136,0.5); }
+
+/* Admin panel button — visible labeled button */
+.admin-panel-btn {
+    height: 38px; padding: 0 14px; border-radius: 10px;
+    background: linear-gradient(135deg, rgba(200,0,29,0.18), rgba(232,0,29,0.12));
+    border: 1px solid rgba(232,0,29,0.45); color: #ff6677;
+    font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap;
+    display: inline-flex; align-items: center; gap: 5px;
+    transition: 0.22s; font-family: 'Poppins', sans-serif; flex-shrink: 0;
+    box-shadow: 0 0 14px rgba(232,0,29,0.15);
+}
+.admin-panel-btn:hover {
+    background: linear-gradient(135deg, rgba(232,0,29,0.3), rgba(200,0,29,0.22));
+    border-color: #e8001d; color: #fff;
+    box-shadow: 0 0 20px rgba(232,0,29,0.3); transform: translateY(-1px);
+}
 .exit-btn { border-color: rgba(232,0,29,0.2); }
 .exit-btn:hover { background: rgba(232,0,29,0.15); border-color: rgba(232,0,29,0.5); }
 
