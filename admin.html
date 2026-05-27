@@ -62,6 +62,7 @@
         <button class="admin-tab" onclick="showAdminTab('products')">📦 Produtos</button>
         <button class="admin-tab" onclick="showAdminTab('orders')">📋 Pedidos</button>
         <button class="admin-tab" onclick="showAdminTab('analytics')">📊 Resumo</button>
+        <button class="admin-tab" onclick="showAdminTab('categories')">🏷️ Categorias</button>
     </div>
 
     <!-- ABA: USUÁRIOS -->
@@ -110,6 +111,46 @@
             </div>
         </div>
         <div id="ordersList" class="orders-list"></div>
+    </div>
+
+    <!-- ABA: CATEGORIAS -->
+    <div id="tab-categories" class="admin-tab-content" style="display:none;">
+        <div class="section-header">
+            <div>
+                <h2>🏷️ Categorias <span id="catCount">(0)</span></h2>
+                <p class="section-sub">Crie e gerencie as categorias de produtos da loja.</p>
+            </div>
+            <button class="btn-clear-all" onclick="resetDefaultCategories()">🔄 Restaurar Padrão</button>
+        </div>
+
+        <div class="cat-add-form">
+            <div class="cat-add-row">
+                <div class="cat-emoji-wrap">
+                    <input type="text" id="newCatEmoji" maxlength="4" placeholder="🏷️" class="cat-emoji-input">
+                    <div class="cat-emoji-presets">
+                        <span onclick="document.getElementById('newCatEmoji').value=this.innerText">⌨️</span>
+                        <span onclick="document.getElementById('newCatEmoji').value=this.innerText">🖱️</span>
+                        <span onclick="document.getElementById('newCatEmoji').value=this.innerText">🖥️</span>
+                        <span onclick="document.getElementById('newCatEmoji').value=this.innerText">🎧</span>
+                        <span onclick="document.getElementById('newCatEmoji').value=this.innerText">⌚</span>
+                        <span onclick="document.getElementById('newCatEmoji').value=this.innerText">💻</span>
+                        <span onclick="document.getElementById('newCatEmoji').value=this.innerText">🕹️</span>
+                        <span onclick="document.getElementById('newCatEmoji').value=this.innerText">🎮</span>
+                        <span onclick="document.getElementById('newCatEmoji').value=this.innerText">📱</span>
+                        <span onclick="document.getElementById('newCatEmoji').value=this.innerText">🔋</span>
+                        <span onclick="document.getElementById('newCatEmoji').value=this.innerText">💡</span>
+                        <span onclick="document.getElementById('newCatEmoji').value=this.innerText">📷</span>
+                        <span onclick="document.getElementById('newCatEmoji').value=this.innerText">🎵</span>
+                        <span onclick="document.getElementById('newCatEmoji').value=this.innerText">🖨️</span>
+                        <span onclick="document.getElementById('newCatEmoji').value=this.innerText">📦</span>
+                    </div>
+                </div>
+                <input type="text" id="newCatName" placeholder="Nome da categoria (ex: Cadeiras Gamer)" class="cat-name-input" onkeydown="if(event.key==='Enter')addCategory()">
+                <button class="btn-add-product" onclick="addCategory()">+ Adicionar</button>
+            </div>
+        </div>
+
+        <div id="catList" class="cat-list"></div>
     </div>
 
     <!-- ABA: ANALYTICS (reduzida) -->
