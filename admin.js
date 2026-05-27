@@ -151,7 +151,10 @@ function renderProducts() {
                     ${p.sellerName ? `<span class="seller-tag">por ${p.sellerName}</span>` : ""}
                 </div>
             </div>
-            <button class="btn-delete-product" onclick="deleteProduct(${p.id})">🗑 Remover</button>
+            <div class="product-row-actions">
+                <button class="btn-edit-product" onclick="adminOpenEdit(${p.id})">✏️ Editar</button>
+                <button class="btn-delete-product" onclick="deleteProduct(${p.id})">🗑 Remover</button>
+            </div>
         </div>
     `).join('');
 }
@@ -194,6 +197,80 @@ function deleteProduct(id) {
             renderProducts();
         }
     );
+}
+
+/* ---- EDITAR PRODUTO (ADMIN) ---- */
+function adminOpenEdit(id) {
+    const products = JSON.parse(localStorage.getItem("tech_products")) || [];
+    const p = products.find(x => x.id === id);
+    if (!p) return;
+
+    document.getElementById("adminEditId").value = id;
+    document.getElementById("adminEditName").value = p.name;
+    document.getElementById("adminEditPrice").value = p.price;
+    document.getElementById("adminEditStock").value = p.stock ?? 1;
+    document.getElementById("adminEditCondition").value = p.condition || "Novo";
+
+    const cats = JSON.parse(localStorage.getItem("tech_categories")) || [
+        {name:"Teclados",emoji:"⌨️"},{name:"Mouses",emoji:"🖱️"},
+        {name:"Monitores",emoji:"🖥️"},{name:"Headsets",emoji:"🎧"},
+        {name:"Smartwatches",emoji:"⌚"},{name:"Notebooks",emoji:"💻"},
+        {name:"Periféricos",emoji:"🕹️"},{name:"Setups",emoji:"🎮"}
+    ];
+    document.getElementById("adminEditCategory").innerHTML =
+        '<option value="">Selecione...</option>' +
+        cats.map(c => `<option value="${c.name}"${c.name===p.category?' selected':''}>${c.emoji} ${c.name}</option>`).join('');
+
+    const feats = Array.isArray(p.features) ? p.features.join('\n') : (p.features || '');
+    document.getElementById("adminEditFeatures").value = feats;
+
+    const imgs = (p.images && p.images.length > 0) ? p.images : (p.image ? [p.image] : ['']);
+    document.getElementById("adminEditImages").value = imgs.join('\n');
+
+    document.getElementById("adminEditModal").style.display = "flex";
+    document.body.style.overflow = "hidden";
+}
+
+function adminCloseEdit() {
+    document.getElementById("adminEditModal").style.display = "none";
+    document.body.style.overflow = "";
+}
+
+function adminCloseEditOverlay(e) {
+    if (e.target === document.getElementById("adminEditModal")) adminCloseEdit();
+}
+
+function adminSaveEdit(e) {
+    e.preventDefault();
+    const id       = parseInt(document.getElementById("adminEditId").value);
+    const name     = document.getElementById("adminEditName").value.trim();
+    const price    = parseFloat(document.getElementById("adminEditPrice").value);
+    const category = document.getElementById("adminEditCategory").value;
+    const condition= document.getElementById("adminEditCondition").value;
+    const stock    = parseInt(document.getElementById("adminEditStock").value) || 0;
+    const featRaw  = document.getElementById("adminEditFeatures").value.trim();
+    const imgsRaw  = document.getElementById("adminEditImages").value.trim();
+
+    if (!name)  { showToast("Informe o nome do produto.", "error"); return; }
+    if (!price || price <= 0) { showToast("Informe um preço válido.", "error"); return; }
+    if (!category) { showToast("Selecione uma categoria.", "error"); return; }
+
+    const features = featRaw ? featRaw.split('\n').map(f => f.trim()).filter(Boolean) : [];
+    const images   = imgsRaw ? imgsRaw.split('\n').map(u => u.trim()).filter(Boolean) : [];
+
+    if (images.length === 0) { showToast("Adicione ao menos uma URL de foto.", "error"); return; }
+
+    let products = JSON.parse(localStorage.getItem("tech_products")) || [];
+    products = products.map(p => p.id !== id ? p : {
+        ...p, name, price, category, condition, stock, features,
+        image: images[0], images
+    });
+    localStorage.setItem("tech_products", JSON.stringify(products));
+
+    adminCloseEdit();
+    loadStats();
+    renderProducts();
+    showToast("✅ Produto atualizado com sucesso!", "success", 2500);
 }
 
 /* ---- ORDERS ---- */
