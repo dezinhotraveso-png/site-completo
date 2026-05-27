@@ -31,6 +31,7 @@ function initVender() {
     }
 
     initPhotoGallery();
+    renderMeusProdutos();
 }
 
 /* =====================================================
@@ -240,4 +241,256 @@ function resetForm() {
     document.querySelector(".vender-form").style.display = "block";
     document.getElementById("successMsg").style.display = "none";
     initPhotoGallery();
+    renderMeusProdutos();
+}
+
+/* =====================================================
+   MEUS PRODUTOS — listagem
+   ===================================================== */
+function renderMeusProdutos() {
+    const user = getLoggedUser();
+    if (!user) return;
+
+    const allProducts = JSON.parse(localStorage.getItem("tech_products")) || [];
+    const meus = user.role === "admin"
+        ? allProducts
+        : allProducts.filter(p => p.seller === user.email);
+
+    const lista = document.getElementById("meusProdutosList");
+    const count = document.getElementById("meusCount");
+    if (!lista) return;
+
+    count.textContent = meus.length + (meus.length === 1 ? " produto" : " produtos");
+
+    if (meus.length === 0) {
+        lista.innerHTML = `<div class="meus-empty"><span>📦</span>Você ainda não publicou nenhum produto.</div>`;
+        return;
+    }
+
+    lista.innerHTML = meus.map(p => {
+        const imgEl = p.image
+            ? `<img class="meu-produto-img" src="${p.image}" alt="${p.name}" onerror="this.outerHTML='<div class=\\'meu-produto-img-placeholder\\'>📦</div>'">`
+            : `<div class="meu-produto-img-placeholder">📦</div>`;
+        return `
+        <div class="meu-produto-card">
+            ${imgEl}
+            <div class="meu-produto-info">
+                <div class="meu-produto-nome">${p.name}</div>
+                <div class="meu-produto-meta">
+                    <span class="meu-badge preco">R$ ${Number(p.price).toFixed(2)}</span>
+                    <span class="meu-badge estoque">Estoque: ${p.stock ?? 1}</span>
+                    <span class="meu-badge cat">${p.category}</span>
+                    <span class="meu-badge cond">${p.condition || 'Novo'}</span>
+                </div>
+            </div>
+            <div class="meu-produto-acoes">
+                <button class="btn-editar" onclick="abrirEdicao(${p.id})">✏️ Editar</button>
+                <button class="btn-excluir" onclick="excluirProduto(${p.id})">🗑️</button>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function excluirProduto(id) {
+    if (!confirm("Tem certeza que quer excluir este produto? Esta ação não pode ser desfeita.")) return;
+    let products = JSON.parse(localStorage.getItem("tech_products")) || [];
+    products = products.filter(p => p.id !== id);
+    localStorage.setItem("tech_products", JSON.stringify(products));
+    renderMeusProdutos();
+    showToast("🗑️ Produto excluído.", "success", 2000);
+}
+
+/* =====================================================
+   EDIÇÃO — galeria de fotos dentro do modal
+   ===================================================== */
+let editGallerySlots = [''];
+let editActiveSlot = 0;
+let editSelectedPhotoUrl = null;
+
+function editRenderGallery() {
+    const container = document.getElementById('editPhotoGallery');
+    if (!container) return;
+    container.innerHTML = editGallerySlots.map((url, i) => `
+        <div class="photo-slot${i === 0 ? ' is-main' : ''}" id="eslot-${i}">
+            <div class="slot-preview-wrap" id="eslotPreview-${i}">
+                ${url
+                    ? `<img src="${url}" class="slot-thumb" onerror="this.parentElement.innerHTML='<div class=\\'slot-placeholder\\'>❌</div>'">`
+                    : `<div class="slot-placeholder">📷</div>`}
+            </div>
+            <div class="slot-inputs">
+                <span class="slot-label${i === 0 ? ' main' : ''}">${i === 0 ? '⭐ Foto Principal' : 'Foto ' + (i + 1)}</span>
+                <input type="url" class="slot-url-input" id="eslotUrl-${i}" value="${url}"
+                       placeholder="URL da imagem..." oninput="editUpdateSlotPreview(${i})">
+            </div>
+            <div class="slot-btns">
+                <button type="button" class="ai-photo-btn" onclick="editOpenPhotoPicker(${i})">✨ Buscar</button>
+                ${i > 0 ? `<button type="button" class="btn-remove-slot" onclick="editRemovePhotoSlot(${i})">✕ Remover</button>` : ''}
+            </div>
+        </div>
+    `).join('');
+    const addBtn = document.getElementById('editBtnAddPhoto');
+    if (addBtn) addBtn.style.display = editGallerySlots.length >= 6 ? 'none' : 'flex';
+}
+
+function editUpdateSlotPreview(i) {
+    const input = document.getElementById(`eslotUrl-${i}`);
+    if (!input) return;
+    const url = input.value.trim();
+    editGallerySlots[i] = url;
+    const wrap = document.getElementById(`eslotPreview-${i}`);
+    if (!wrap) return;
+    wrap.innerHTML = url
+        ? `<img src="${url}" class="slot-thumb" onerror="this.parentElement.innerHTML='<div class=\\'slot-placeholder\\'>❌</div>'">`
+        : `<div class="slot-placeholder">📷</div>`;
+}
+
+function editAddPhotoSlot() {
+    if (editGallerySlots.length >= 6) return;
+    editGallerySlots.push('');
+    editRenderGallery();
+}
+
+function editRemovePhotoSlot(i) {
+    if (i === 0 || editGallerySlots.length <= 1) return;
+    editGallerySlots.splice(i, 1);
+    editRenderGallery();
+}
+
+function editGetGalleryImages() {
+    return editGallerySlots.map(u => u.trim()).filter(u => u.length > 0);
+}
+
+async function editOpenPhotoPicker(slotIndex) {
+    const name = document.getElementById("editName").value.trim();
+    const category = document.getElementById("editCategory").value;
+    if (!category) { showToast("Selecione uma categoria primeiro.", "warning"); return; }
+
+    editActiveSlot = slotIndex;
+    const btns = document.querySelectorAll('#editModal .ai-photo-btn');
+    btns.forEach(b => b.disabled = true);
+    const clicked = document.querySelector(`#eslot-${slotIndex} .ai-photo-btn`);
+    if (clicked) clicked.textContent = "⏳ Buscando...";
+
+    try {
+        const params = new URLSearchParams({ category, name });
+        const res = await fetch(`/api/github/images?${params}`);
+        const data = await res.json();
+        editRenderPhotoPicker(data.images || []);
+    } catch (e) {
+        showToast("Erro ao buscar fotos.", "error");
+    } finally {
+        btns.forEach(b => b.disabled = false);
+        if (clicked) clicked.textContent = "✨ Buscar";
+    }
+}
+
+function editRenderPhotoPicker(images) {
+    const picker = document.getElementById("editPhotoPicker");
+    const grid   = document.getElementById("editPhotoGrid");
+    const useBtn = document.getElementById("editPhotoUseBtn");
+    editSelectedPhotoUrl = null;
+    useBtn.style.display = "none";
+    grid.innerHTML = images.map((url, i) => `
+        <div class="photo-option" onclick="editSelectPhoto(this, '${url}')">
+            <img src="${url}" alt="Foto ${i + 1}" loading="lazy" onerror="this.parentElement.style.display='none'">
+            <div class="check">✓</div>
+        </div>
+    `).join('');
+    picker.style.display = "block";
+}
+
+function editSelectPhoto(el, url) {
+    document.querySelectorAll('#editPhotoPicker .photo-option').forEach(p => p.classList.remove("selected"));
+    el.classList.add("selected");
+    editSelectedPhotoUrl = url;
+    document.getElementById("editPhotoUseBtn").style.display = "block";
+}
+
+function editUseSelectedPhoto() {
+    if (!editSelectedPhotoUrl) return;
+    editGallerySlots[editActiveSlot] = editSelectedPhotoUrl;
+    const input = document.getElementById(`eslotUrl-${editActiveSlot}`);
+    if (input) input.value = editSelectedPhotoUrl;
+    const wrap = document.getElementById(`eslotPreview-${editActiveSlot}`);
+    if (wrap) wrap.innerHTML = `<img src="${editSelectedPhotoUrl}" class="slot-thumb" onerror="this.parentElement.innerHTML='<div class=\\'slot-placeholder\\'>❌</div>'">`;
+    document.getElementById("editPhotoPicker").style.display = "none";
+    showToast("✅ Foto adicionada!", "success", 2000);
+}
+
+/* =====================================================
+   EDIÇÃO — abrir / fechar / salvar
+   ===================================================== */
+function abrirEdicao(id) {
+    const products = JSON.parse(localStorage.getItem("tech_products")) || [];
+    const p = products.find(x => x.id === id);
+    if (!p) return;
+
+    document.getElementById("editId").value = id;
+    document.getElementById("editName").value = p.name;
+    document.getElementById("editPrice").value = p.price;
+    document.getElementById("editStock").value = p.stock ?? 1;
+
+    const catSelect = document.getElementById("editCategory");
+    const cats = JSON.parse(localStorage.getItem("tech_categories")) || [
+        {name:"Teclados",emoji:"⌨️"},{name:"Mouses",emoji:"🖱️"},
+        {name:"Monitores",emoji:"🖥️"},{name:"Headsets",emoji:"🎧"},
+        {name:"Smartwatches",emoji:"⌚"},{name:"Notebooks",emoji:"💻"},
+        {name:"Periféricos",emoji:"🕹️"},{name:"Setups",emoji:"🎮"}
+    ];
+    catSelect.innerHTML = '<option value="">Selecione...</option>' +
+        cats.map(c => `<option value="${c.name}"${c.name === p.category ? ' selected' : ''}>${c.emoji} ${c.name}</option>`).join('');
+
+    const condSelect = document.getElementById("editCondition");
+    condSelect.value = p.condition || "Novo";
+
+    const feats = Array.isArray(p.features) ? p.features.join('\n') : (p.features || '');
+    document.getElementById("editFeatures").value = feats;
+
+    editGallerySlots = (p.images && p.images.length > 0) ? [...p.images] : (p.image ? [p.image] : ['']);
+    document.getElementById("editPhotoPicker").style.display = "none";
+    editRenderGallery();
+
+    document.getElementById("editModal").style.display = "flex";
+    document.body.style.overflow = "hidden";
+}
+
+function fecharModal() {
+    document.getElementById("editModal").style.display = "none";
+    document.body.style.overflow = "";
+}
+
+function closeEditModal(e) {
+    if (e.target === document.getElementById("editModal")) fecharModal();
+}
+
+function salvarEdicao(e) {
+    e.preventDefault();
+    const id = parseInt(document.getElementById("editId").value);
+    const name     = document.getElementById("editName").value.trim();
+    const price    = parseFloat(document.getElementById("editPrice").value);
+    const category = document.getElementById("editCategory").value;
+    const condition= document.getElementById("editCondition").value;
+    const stock    = parseInt(document.getElementById("editStock").value) || 0;
+    const featRaw  = document.getElementById("editFeatures").value.trim();
+    const images   = editGetGalleryImages();
+
+    if (!name)   { showToast("Informe o nome do produto.", "error"); return; }
+    if (!price || price <= 0) { showToast("Informe um preço válido.", "error"); return; }
+    if (!category) { showToast("Selecione uma categoria.", "error"); return; }
+    if (images.length === 0) { showToast("Adicione ao menos uma foto.", "error"); return; }
+
+    const features = featRaw
+        ? featRaw.split('\n').map(f => f.trim()).filter(f => f.length > 0)
+        : [];
+
+    let products = JSON.parse(localStorage.getItem("tech_products")) || [];
+    products = products.map(p => {
+        if (p.id !== id) return p;
+        return { ...p, name, price, category, condition, stock, features, image: images[0], images };
+    });
+    localStorage.setItem("tech_products", JSON.stringify(products));
+
+    fecharModal();
+    renderMeusProdutos();
+    showToast("✅ Produto atualizado com sucesso!", "success", 2500);
 }
