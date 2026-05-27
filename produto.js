@@ -62,7 +62,9 @@ function loadProduct() {
         stock: produtoSalvo ? (produtoSalvo.stock || 0) : 0,
         condition: produtoSalvo ? (produtoSalvo.condition || 'Novo') : 'Novo',
         images: produtoSalvo
-            ? [produtoSalvo.image]
+            ? (Array.isArray(produtoSalvo.images) && produtoSalvo.images.length > 0
+                ? produtoSalvo.images
+                : [produtoSalvo.image])
             : ["https://images.unsplash.com/photo-1607853202273-797f1c22a38e?w=500&auto=format&fit=crop"],
         features: produtoSalvo && produtoSalvo.features ? produtoSalvo.features : [
             "Produto original de alta qualidade",
