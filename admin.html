@@ -15,6 +15,7 @@
     <div class="logo" onclick="window.location.href='dashboard.html'">TECH<span>STORE</span></div>
     <div class="nav-right">
         <span class="admin-badge">⚙️ Painel Admin</span>
+        <button class="updates-btn" onclick="window.location.href='updates.html'">📋 Updates</button>
         <button class="back-btn" onclick="window.location.href='dashboard.html'">⬅ Voltar à Loja</button>
     </div>
 </nav>
@@ -60,7 +61,7 @@
         <button class="admin-tab active" onclick="showAdminTab('users')">👥 Usuários</button>
         <button class="admin-tab" onclick="showAdminTab('products')">📦 Produtos</button>
         <button class="admin-tab" onclick="showAdminTab('orders')">📋 Pedidos</button>
-        <button class="admin-tab" onclick="showAdminTab('analytics')">📊 Analytics</button>
+        <button class="admin-tab" onclick="showAdminTab('analytics')">📊 Resumo</button>
     </div>
 
     <!-- ABA: USUÁRIOS -->
@@ -86,10 +87,13 @@
     <div id="tab-products" class="admin-tab-content" style="display:none;">
         <div class="section-header">
             <div>
-                <h2>Gerenciar Produtos</h2>
-                <p class="section-sub">Visualize, edite ou remova produtos da loja.</p>
+                <h2>Produtos <span id="productCount">(0)</span></h2>
+                <p class="section-sub">Gerencie os produtos da loja.</p>
             </div>
-            <button class="btn-add-product" onclick="window.location.href='vender.html'">+ Adicionar Produto</button>
+            <div style="display:flex;gap:10px;">
+                <button class="btn-clear-all" onclick="deleteAllProducts()">🗑 Apagar Todos</button>
+                <button class="btn-add-product" onclick="window.location.href='vender.html'">+ Novo Produto</button>
+            </div>
         </div>
         <div class="search-bar">
             <input type="text" id="productSearch" placeholder="🔍 Buscar por nome ou categoria..." oninput="renderProducts()">
@@ -108,51 +112,48 @@
         <div id="ordersList" class="orders-list"></div>
     </div>
 
-    <!-- ABA: ANALYTICS -->
+    <!-- ABA: ANALYTICS (reduzida) -->
     <div id="tab-analytics" class="admin-tab-content" style="display:none;">
         <div class="section-header">
             <div>
-                <h2>📊 Analytics e Estatísticas</h2>
+                <h2>📊 Analytics</h2>
                 <p class="section-sub">Visão geral do desempenho da loja.</p>
             </div>
         </div>
-
         <div class="analytics-grid">
-            <!-- Revenue Cards -->
             <div class="analytics-card">
-                <div class="analytics-card-header">
-                    <span class="analytics-card-title">💰 Receita por Método de Pagamento</span>
-                </div>
+                <div class="analytics-card-header"><span class="analytics-card-title">💰 Receita por Pagamento</span></div>
                 <div id="revenueByPayment" class="analytics-bars"></div>
             </div>
-
             <div class="analytics-card">
-                <div class="analytics-card-header">
-                    <span class="analytics-card-title">📦 Pedidos por Status</span>
-                </div>
+                <div class="analytics-card-header"><span class="analytics-card-title">📦 Pedidos por Status</span></div>
                 <div id="ordersByStatus" class="analytics-bars"></div>
             </div>
-
             <div class="analytics-card">
-                <div class="analytics-card-header">
-                    <span class="analytics-card-title">🏷️ Produtos por Categoria</span>
-                </div>
+                <div class="analytics-card-header"><span class="analytics-card-title">🏷️ Produtos por Categoria</span></div>
                 <div id="productsByCategory" class="analytics-bars"></div>
-            </div>
-
-            <div class="analytics-card">
-                <div class="analytics-card-header">
-                    <span class="analytics-card-title">🏆 Top Produtos Mais Pedidos</span>
-                </div>
-                <div id="topProducts" class="analytics-bars"></div>
             </div>
         </div>
     </div>
 
 </main>
 
+<!-- CUSTOM CONFIRM MODAL -->
+<div id="confirmModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);align-items:center;justify-content:center;">
+    <div style="background:#0d0d16;border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:32px;max-width:420px;width:90%;box-shadow:0 24px 64px rgba(0,0,0,0.8);text-align:center;">
+        <div id="confirmIcon" style="font-size:42px;margin-bottom:14px;">⚠️</div>
+        <h3 id="confirmTitle" style="font-size:18px;font-weight:800;margin-bottom:8px;color:#fff;"></h3>
+        <p id="confirmMsg" style="font-size:14px;color:#888;margin-bottom:24px;line-height:1.6;"></p>
+        <div style="display:flex;gap:12px;justify-content:center;">
+            <button id="confirmCancel" style="flex:1;padding:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#aaa;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;transition:.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">Cancelar</button>
+            <button id="confirmOk" style="flex:1;padding:12px;background:linear-gradient(135deg,#aa0000,#e8001d);border:none;color:#fff;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Poppins',sans-serif;transition:.2s;box-shadow:0 4px 14px rgba(232,0,29,0.3);" onmouseover="this.style.filter='brightness(1.15)'" onmouseout="this.style.filter='brightness(1)'">Confirmar</button>
+        </div>
+    </div>
+</div>
+
 <script src="notifications.js"></script>
 <script src="chat.js"></script>
 <script src="admin.js"></script>
+<script src="/github-sync.js"></script>
 </body>
 </html>
