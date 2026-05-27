@@ -1,36 +1,42 @@
-# [Project name]
+# TechStore
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+A Portuguese-language e-commerce platform for tech products (keyboards, mice, monitors, etc.) with user auth, admin panel, cart, orders, and product reviews — all client-side using localStorage.
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
-- `pnpm run typecheck` — full typecheck across all packages
-- `pnpm run build` — typecheck + build all packages
-- `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
-- `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string
+- `node server.js` — serve the static site on port 5000
 
 ## Stack
 
-- pnpm workspaces, Node.js 24, TypeScript 5.9
-- API: Express 5
-- DB: PostgreSQL + Drizzle ORM
-- Validation: Zod (`zod/v4`), `drizzle-zod`
-- API codegen: Orval (from OpenAPI spec)
-- Build: esbuild (CJS bundle)
+- Pure static HTML, CSS, JavaScript (ES6+)
+- No build step — files served directly
+- Data persistence: browser `localStorage`
+- Server: lightweight Node.js HTTP server (`server.js`)
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `index.html` / `script.js` — login/register entry point
+- `dashboard.html` / `dashboard.js` — main store with product listing, search, filters
+- `admin.html` / `admin.js` — admin dashboard (stats, user/product/category management)
+- `carrinho.html` / `carrinho.js` — cart and checkout
+- `pedidos.html` / `pedidos.js` — order history
+- `produto.html` / `produto.js` — product detail page
+- `favoritos.html` / `favoritos.js` — favorites/wishlist
+- `perfil.html` / `perfil.js` — user profile
+- `vender.html` / `vender.js` — seller panel
+- `styles.css` — global design system (dark mode, neon accents)
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- All data lives in `localStorage` with keys like `tech_users_v2`, `tech_products`, `tech_orders`
+- Admin access: login with `admin@tech.com` and any password
+- Multi-page app (MPA) — each feature is a separate HTML file
+- No bundler or transpiler — vanilla JS served directly
+- `server.js` is a minimal Node.js HTTP file server on port 5000
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+TechStore is a fully client-side e-commerce demo for tech products. Users can browse, search, and filter products; manage a cart and place orders; leave reviews; manage favorites; and chat. Admins can manage users, products, and categories.
 
 ## User preferences
 
@@ -38,8 +44,5 @@ _Populate as you build — explicit user instructions worth remembering across s
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
-
-## Pointers
-
-- See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details
+- All data is ephemeral per browser/device (localStorage only — no real database)
+- Clearing browser storage resets all data
