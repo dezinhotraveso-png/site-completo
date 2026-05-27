@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechStore | Histórico de Updates</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="updates.css">
+</head>
+<body onload="initUpdates()">
+
+<nav class="navbar">
+    <div class="logo" onclick="window.location.href='dashboard.html'">TECH<span>STORE</span></div>
+    <div class="nav-right">
+        <span class="admin-badge">⚙️ Admin</span>
+        <button class="back-btn" onclick="window.location.href='admin.html'">⬅ Painel Admin</button>
+    </div>
+</nav>
+
+<div class="hero-banner">
+    <img class="hero-img" src="https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=1400&q=85&auto=format&fit=crop" alt="GitHub Updates" onerror="this.style.display='none'">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <div class="hero-icon">📋</div>
+        <h1>Histórico de Updates</h1>
+        <p>Todos os commits e salvamentos automáticos do sistema</p>
+        <div class="hero-stats" id="heroStats">
+            <div class="stat"><span id="totalCommits">—</span><small>Commits</small></div>
+            <div class="stat"><span id="lastSave">—</span><small>Último save</small></div>
+            <div class="stat"><span id="autoSaves">—</span><small>Auto-saves</small></div>
+        </div>
+    </div>
+</div>
+
+<main class="updates-container">
+
+    <div class="filters-bar">
+        <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" placeholder="Buscar por mensagem ou data..." oninput="filterCommits()">
+        </div>
+        <div class="filter-tabs">
+            <button class="filter-tab active" onclick="setFilter('all', this)">Todos</button>
+            <button class="filter-tab" onclick="setFilter('auto', this)">🔄 Auto-saves</button>
+            <button class="filter-tab" onclick="setFilter('access', this)">📊 Acessos</button>
+            <button class="filter-tab" onclick="setFilter('manual', this)">✍️ Manuais</button>
+        </div>
+        <button class="refresh-btn" onclick="loadCommits()">↻ Atualizar</button>
+    </div>
+
+    <div id="commitsList" class="commits-list">
+        <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Carregando histórico do GitHub...</p>
+        </div>
+    </div>
+
+    <div class="load-more-wrap" id="loadMoreWrap" style="display:none;">
+        <button class="load-more-btn" onclick="loadMore()">Carregar mais commits</button>
+    </div>
+
+</main>
+
+<script src="notifications.js"></script>
+<script src="updates.js"></script>
+<script src="/github-sync.js"></script>
+</body>
+</html>
