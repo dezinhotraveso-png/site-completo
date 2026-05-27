@@ -19,7 +19,8 @@
     <div class="user-info">
         <span id="userGreeting" class="user-greeting"></span>
         <span id="userRoleTag" class="user-role-tag" style="display:none;"></span>
-        <button id="btnAdminPanel" class="icon-btn" onclick="window.location.href='admin.html'" style="display:none;" title="Painel Admin">⚙️</button>
+        <button id="btnAdminPanel" class="admin-panel-btn" onclick="window.location.href='admin.html'" style="display:none;" title="Painel Admin">⚙️ Admin</button>
+        <button id="btnUpdates" class="icon-btn" onclick="window.location.href='updates.html'" style="display:none;" title="Histórico de Updates">📋</button>
         <button id="btnAddProduct" class="icon-btn green" onclick="window.location.href='vender.html'" style="display:none;" title="Adicionar Produto">＋</button>
         <button class="icon-btn" onclick="window.location.href='pedidos.html'" title="Meus Pedidos">📦</button>
         <button class="icon-btn red" id="favsNavBtn" onclick="window.location.href='favoritos.html'" title="Favoritos">
@@ -56,28 +57,6 @@
 </div>
 
 <main class="container">
-
-    <!-- ADMIN QUICK-ADD PANEL -->
-    <section id="adminPanel" class="admin-panel" style="display: none;">
-        <h2><span class="icon">⚙️</span> Adicionar Produto</h2>
-        <div class="admin-grid">
-            <input type="text" id="pName" placeholder="Nome do Produto">
-            <input type="text" id="pPrice" placeholder="Preço (Ex: 4500.00)">
-            <input type="text" id="pImage" placeholder="URL da Imagem">
-            <select id="pCategory" class="admin-select">
-                <option value="Todos">Selecione a categoria</option>
-                <option value="Teclados">Teclados</option>
-                <option value="Mouses">Mouses</option>
-                <option value="Monitores">Monitores</option>
-                <option value="Headsets">Headsets</option>
-                <option value="Smartwatches">Smartwatches</option>
-                <option value="Notebooks">Notebooks</option>
-                <option value="Periféricos">Periféricos</option>
-                <option value="Setups">Setups</option>
-            </select>
-            <button onclick="addProduct()" class="btn-add">Adicionar</button>
-        </div>
-    </section>
 
     <!-- RECOMMENDATIONS CAROUSEL -->
     <section class="recs-section" id="recsSection">
@@ -158,5 +137,6 @@
 <script src="notifications.js"></script>
 <script src="chat.js"></script>
 <script src="dashboard.js"></script>
+<script src="/github-sync.js"></script>
 </body>
 </html>
