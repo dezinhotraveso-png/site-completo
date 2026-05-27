@@ -17,6 +17,18 @@ function initVender() {
     const roleTag = document.getElementById("roleTag");
     roleTag.innerText = user.role === "admin" ? "⚙️ Admin" : "🏪 Vendedor";
     roleTag.className = "role-tag " + user.role;
+
+    const select = document.getElementById("pCategory");
+    if (select) {
+        const cats = JSON.parse(localStorage.getItem("tech_categories")) || [
+            {name:"Teclados",emoji:"⌨️"},{name:"Mouses",emoji:"🖱️"},
+            {name:"Monitores",emoji:"🖥️"},{name:"Headsets",emoji:"🎧"},
+            {name:"Smartwatches",emoji:"⌚"},{name:"Notebooks",emoji:"💻"},
+            {name:"Periféricos",emoji:"🕹️"},{name:"Setups",emoji:"🎮"}
+        ];
+        select.innerHTML = '<option value="">Selecione...</option>' +
+            cats.map(c => `<option value="${c.name}">${c.emoji} ${c.name}</option>`).join('');
+    }
 }
 
 function previewImage() {
@@ -30,6 +42,70 @@ function previewImage() {
     } else {
         box.style.display = "none";
     }
+}
+
+/* ---- PHOTO PICKER ---- */
+let selectedPhotoUrl = null;
+
+async function openPhotoPicker() {
+    const name = document.getElementById("pName").value.trim();
+    const category = document.getElementById("pCategory").value;
+
+    if (!category) {
+        showToast("Selecione uma categoria primeiro.", "warning");
+        return;
+    }
+
+    const btn = document.querySelector(".ai-photo-btn");
+    btn.disabled = true;
+    btn.textContent = "⏳ Buscando...";
+
+    try {
+        const params = new URLSearchParams({ category, name });
+        const res = await fetch(`/api/github/images?${params}`);
+        const data = await res.json();
+        renderPhotoPicker(data.images || []);
+    } catch (e) {
+        showToast("Erro ao buscar fotos. Tente novamente.", "error");
+    } finally {
+        btn.disabled = false;
+        btn.textContent = "✨ Buscar Fotos";
+    }
+}
+
+function renderPhotoPicker(images) {
+    const picker = document.getElementById("photoPicker");
+    const grid = document.getElementById("photoGrid");
+    const useBtn = document.getElementById("photoUseBtn");
+
+    selectedPhotoUrl = null;
+    useBtn.style.display = "none";
+
+    grid.innerHTML = images.map((url, i) => `
+        <div class="photo-option" onclick="selectPhoto(this, '${url}')">
+            <img src="${url}" alt="Foto ${i + 1}" loading="lazy"
+                 onerror="this.parentElement.style.display='none'">
+            <div class="check">✓</div>
+        </div>
+    `).join('');
+
+    picker.style.display = "block";
+    picker.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+function selectPhoto(el, url) {
+    document.querySelectorAll(".photo-option").forEach(p => p.classList.remove("selected"));
+    el.classList.add("selected");
+    selectedPhotoUrl = url;
+    document.getElementById("photoUseBtn").style.display = "block";
+}
+
+function useSelectedPhoto() {
+    if (!selectedPhotoUrl) return;
+    document.getElementById("pImage").value = selectedPhotoUrl;
+    document.getElementById("photoPicker").style.display = "none";
+    previewImage();
+    showToast("✅ Foto selecionada!", "success", 2000);
 }
 
 function submitProduct(e) {
@@ -46,7 +122,7 @@ function submitProduct(e) {
     if (!name) { showToast("Informe o nome do produto.", "error"); return; }
     if (!price || price <= 0) { showToast("Informe um preço válido.", "error"); return; }
     if (!category) { showToast("Selecione uma categoria.", "error"); return; }
-    if (!image) { showToast("Informe a URL da imagem.", "error"); return; }
+    if (!image) { showToast("Informe a URL da imagem ou use ✨ Buscar Fotos.", "error"); return; }
 
     const features = featuresRaw
         ? featuresRaw.split('\n').map(f => f.trim()).filter(f => f.length > 0)
@@ -77,6 +153,7 @@ function resetForm() {
     document.getElementById("pFeatures").value = "";
     document.getElementById("pStock").value = "1";
     document.getElementById("imgPreviewBox").style.display = "none";
+    document.getElementById("photoPicker").style.display = "none";
     document.querySelector(".vender-form").style.display = "block";
     document.getElementById("successMsg").style.display = "none";
 }
