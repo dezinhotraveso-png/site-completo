@@ -264,6 +264,69 @@ body {
 .bar-val { font-size: 12px; color: #aaa; font-weight: 600; width: 110px; text-align: right; flex-shrink: 0; }
 .no-data { color: #333; font-size: 13px; text-align: center; padding: 20px 0; }
 
+/* ---- CATEGORIES ADMIN ---- */
+.cat-add-form {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px; padding: 20px 22px;
+    margin-bottom: 24px;
+}
+.cat-add-row {
+    display: flex; align-items: flex-start; gap: 12px; flex-wrap: wrap;
+}
+.cat-emoji-wrap { display: flex; flex-direction: column; gap: 8px; }
+.cat-emoji-input {
+    width: 60px; height: 46px; text-align: center; font-size: 22px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px; color: #fff; outline: none;
+    font-family: 'Poppins', sans-serif; cursor: text;
+    transition: .2s;
+}
+.cat-emoji-input:focus { border-color: rgba(232,0,29,0.5); }
+.cat-emoji-presets {
+    display: flex; gap: 4px; flex-wrap: wrap; max-width: 260px;
+}
+.cat-emoji-presets span {
+    font-size: 20px; cursor: pointer; padding: 3px 5px;
+    border-radius: 8px; transition: .15s; line-height: 1;
+    user-select: none;
+}
+.cat-emoji-presets span:hover { background: rgba(232,0,29,0.15); transform: scale(1.15); }
+.cat-name-input {
+    flex: 1; min-width: 200px; height: 46px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px; color: #fff;
+    padding: 0 16px; font-size: 14px; outline: none;
+    font-family: 'Poppins', sans-serif; transition: .2s;
+}
+.cat-name-input:focus { border-color: rgba(232,0,29,0.45); background: rgba(255,255,255,0.06); }
+.cat-name-input::placeholder { color: #444; }
+
+.cat-list { display: flex; flex-direction: column; gap: 8px; }
+.cat-admin-row {
+    display: flex; align-items: center; gap: 14px;
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 14px; padding: 14px 18px;
+    transition: .2s;
+}
+.cat-admin-row:hover { border-color: rgba(232,0,29,0.2); background: rgba(255,255,255,0.035); }
+.cat-admin-emoji { font-size: 26px; line-height: 1; width: 36px; text-align: center; flex-shrink: 0; }
+.cat-admin-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.cat-admin-name  { font-size: 15px; font-weight: 700; }
+.cat-admin-count { font-size: 12px; color: #555; }
+.btn-delete-cat {
+    background: rgba(232,0,29,0.08);
+    border: 1px solid rgba(232,0,29,0.2);
+    color: #ff6677; width: 34px; height: 34px; border-radius: 10px;
+    cursor: pointer; font-size: 15px; display: flex;
+    align-items: center; justify-content: center;
+    transition: .2s; flex-shrink: 0;
+}
+.btn-delete-cat:hover { background: rgba(232,0,29,0.18); color: #fff; border-color: #e8001d; }
+
 /* ---- EMPTY ---- */
 .empty-state { text-align: center; padding: 40px; color: #333; font-size: 14px; }
 
