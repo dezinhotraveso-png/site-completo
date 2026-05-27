@@ -1,80 +1,9 @@
-[
-  {
-    "page": "/",
-    "timestamp": "2026-05-21T18:05:50.962Z",
-    "referrer": null,
-    "ip": "::ffff:127.0.0.1"
-  },
-  {
-    "page": "/",
-    "timestamp": "2026-05-21T18:14:31.411Z",
-    "referrer": null,
-    "ip": "::ffff:127.0.0.1"
-  },
-  {
-    "page": "/updates.html",
-    "timestamp": "2026-05-21T18:14:33.805Z",
-    "referrer": null,
-    "ip": "::ffff:127.0.0.1"
-  },
-  {
-    "page": "/",
-    "timestamp": "2026-05-27T17:42:41.850Z",
-    "referrer": null,
-    "ip": "::ffff:127.0.0.1"
-  },
-  {
-    "page": "/updates.html",
-    "timestamp": "2026-05-27T17:42:47.517Z",
-    "referrer": null,
-    "ip": "::ffff:127.0.0.1"
-  },
-  {
-    "page": "/admin.html",
-    "timestamp": "2026-05-27T17:43:07.003Z",
-    "referrer": null,
-    "ip": "::ffff:127.0.0.1"
-  },
-  {
-    "page": "/",
-    "timestamp": "2026-05-27T17:43:27.207Z",
-    "referrer": null,
-    "ip": "::ffff:127.0.0.1"
-  },
-  {
-    "page": "/dashboard.html",
-    "timestamp": "2026-05-27T17:43:29.588Z",
-    "referrer": null,
-    "ip": "::ffff:127.0.0.1"
-  },
-  {
-    "page": "/index.html",
-    "timestamp": "2026-05-27T17:48:20.454Z",
-    "referrer": "http://localhost/vender.html",
-    "ip": "::ffff:127.0.0.1"
-  },
-  {
-    "page": "/carrinho.html",
-    "timestamp": "2026-05-27T17:48:22.810Z",
-    "referrer": null,
-    "ip": "::ffff:127.0.0.1"
-  },
-  {
-    "page": "/admin.html",
-    "timestamp": "2026-05-27T17:54:58.778Z",
-    "referrer": null,
-    "ip": "::ffff:127.0.0.1"
-  },
-  {
-    "timestamp": "2026-05-27T18:01:18.754Z",
-    "action": "manual_push",
-    "source": "replit_agent",
-    "note": "Push manual solicitado pelo admin"
-  },
-  {
-    "page": "/",
-    "timestamp": "2026-05-27T18:01:23.464Z",
-    "referrer": null,
-    "ip": "::ffff:127.0.0.1"
-  }
-]
+{
+  "entries": [
+    {
+      "timestamp": "2026-05-27T18:02:33.716Z",
+      "action": "data_sync",
+      "details": "Manual sync of all code and data files to GitHub"
+    }
+  ]
+}
