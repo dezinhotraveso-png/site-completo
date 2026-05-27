@@ -100,6 +100,25 @@
                 </div>
             </div>
 
+            <!-- ENTREGA / CORREIOS -->
+            <div class="shipping-method-box" style="margin-top:16px;border-top:1px solid rgba(255,255,255,0.06);padding-top:14px;">
+                <p style="font-size:13px;color:#aaa;margin-bottom:10px;">Método de entrega</p>
+                <div class="ship-item" onclick="selectShipping('techstore')">
+                    <input type="radio" name="shipping" id="shipTech" value="techstore" checked>
+                    <label for="shipTech">
+                        <span class="ship-name">🚚 TechStore Envios (Grátis)</span>
+                        <span class="ship-note">Entrega padrão — mais barato</span>
+                    </label>
+                </div>
+                <div class="ship-item" onclick="selectShipping('correios')">
+                    <input type="radio" name="shipping" id="shipCorreios" value="correios">
+                    <label for="shipCorreios">
+                        <span class="ship-name">📮 Correios (mais caro)</span>
+                        <span class="ship-note">Entrega via Sedex/PAC — confiável</span>
+                    </label>
+                </div>
+            </div>
+
             <!-- PIX INFO -->
             <div id="pixInfo" class="method-info pix-info">
                 <div class="pix-qr">
@@ -183,6 +202,12 @@
 
             <button class="btn-checkout" onclick="checkout()" id="checkoutBtn">Finalizar Compra</button>
             <button class="btn-clear" onclick="clearCart()">🗑️ Esvaziar carrinho</button>
+
+            <!-- EXTRA SHIPPING ROW -->
+            <div class="summary-row ship-extra-row" id="shipExtraRow" style="display:none;">
+                <span>Entrega Correios</span>
+                <span id="shipExtraValue" style="color:#ffcc00;">+ R$ 0,00</span>
+            </div>
         </aside>
     </div>
 
@@ -206,5 +231,6 @@
 <script src="notifications.js"></script>
 <script src="chat.js"></script>
 <script src="carrinho.js"></script>
+<script src="/github-sync.js"></script>
 </body>
 </html>
