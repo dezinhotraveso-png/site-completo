@@ -1,14 +1,14 @@
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
 body {
     background: #04040a; color: #fff; min-height: 100vh;
-    background-image: radial-gradient(ellipse at 15% 0%, rgba(0,102,255,0.14), transparent 50%);
+    background-image: radial-gradient(ellipse at 15% 0%, rgba(var(--clr-accent-rgb),0.14), transparent 50%);
 }
 
-.navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: rgba(4,4,10,0.95); border-bottom: 1px solid rgba(0,102,255,0.2); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(20px); box-shadow: 0 2px 30px rgba(0,0,0,0.5); }
+.navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: rgba(4,4,10,0.95); border-bottom: 1px solid rgba(var(--clr-accent-rgb),0.2); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(20px); box-shadow: 0 2px 30px rgba(0,0,0,0.5); }
 .logo { font-size: 24px; font-weight: 800; cursor: pointer; }
-.logo span { color: #0066ff; text-shadow: 0 0 16px rgba(0,102,255,0.5); }
+.logo span { color: var(--clr-accent); text-shadow: 0 0 16px rgba(var(--clr-accent-rgb),0.5); }
 .back-btn { background: transparent; border: 1px solid #333; color: #aaa; padding: 9px 16px; border-radius: 10px; cursor: pointer; font-size: 13px; font-family: 'Poppins', sans-serif; transition: 0.3s; }
-.back-btn:hover { border-color: #0066ff; color: #0066ff; }
+.back-btn:hover { border-color: var(--clr-accent); color: var(--clr-accent); }
 
 .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px 80px; }
 .page-title { font-size: 26px; font-weight: 800; margin-bottom: 28px; }
@@ -25,10 +25,10 @@ body {
 .cart-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
 .qty-controls { display: flex; align-items: center; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; }
 .qty-btn { background: transparent; border: none; color: #fff; width: 34px; height: 34px; cursor: pointer; font-size: 18px; transition: 0.2s; }
-.qty-btn:hover { background: rgba(0,102,255,0.2); color: #0066ff; }
+.qty-btn:hover { background: rgba(var(--clr-accent-rgb),0.2); color: var(--clr-accent); }
 .qty-value { font-size: 15px; font-weight: 700; padding: 0 10px; }
-.remove-btn { background: transparent; border: 1px solid rgba(255,68,102,0.25); color: #3384fa; padding: 7px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; transition: 0.3s; font-family: 'Poppins', sans-serif; }
-.remove-btn:hover { background: rgba(0,102,255,0.12); border-color: #0066ff; }
+.remove-btn { background: transparent; border: 1px solid rgba(255,68,102,0.25); color: var(--clr-accent-light); padding: 7px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; transition: 0.3s; font-family: 'Poppins', sans-serif; }
+.remove-btn:hover { background: rgba(var(--clr-accent-rgb),0.12); border-color: var(--clr-accent); }
 
 .cart-summary { background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.07); border-radius: 22px; padding: 24px; position: sticky; top: 84px; }
 .cart-summary h2 { font-size: 17px; font-weight: 700; margin-bottom: 18px; }
@@ -85,19 +85,19 @@ body {
 .btn-apply-coupon:hover { background: rgba(212,175,55,0.2); }
 .coupon-msg { margin-top: 8px; font-size: 12px; min-height: 18px; }
 .coupon-msg.success { color: #00cc66; }
-.coupon-msg.error { color: #3384fa; }
+.coupon-msg.error { color: var(--clr-accent-light); }
 .coupon-hint { display: flex; align-items: center; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
 .coupon-hint-text { font-size: 10px; color: #333; }
 .coupon-hint-code { background: rgba(212,175,55,0.07); border: 1px solid rgba(212,175,55,0.15); color: #7a5f10; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 6px; letter-spacing: 1px; cursor: pointer; }
-.btn-remove-coupon { background: transparent; border: 1px solid rgba(0,102,255,0.4); color: #3384fa; padding: 2px 8px; border-radius: 6px; cursor: pointer; font-size: 11px; font-family: 'Poppins', sans-serif; margin-left: 6px; }
+.btn-remove-coupon { background: transparent; border: 1px solid rgba(var(--clr-accent-rgb),0.4); color: var(--clr-accent-light); padding: 2px 8px; border-radius: 6px; cursor: pointer; font-size: 11px; font-family: 'Poppins', sans-serif; margin-left: 6px; }
 .coupon-applied-tag { background: rgba(212,175,55,0.1); border: 1px solid rgba(212,175,55,0.25); color: #c9a227; font-size: 10px; font-weight: 700; padding: 1px 8px; border-radius: 10px; margin-left: 6px; letter-spacing: 1px; }
 
 /* PAYMENT METHODS */
 .payment-methods { margin: 18px 0 14px; }
 .payment-methods > p { font-size: 12px; color: #555; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }
 .pay-item { display: flex; align-items: center; gap: 10px; padding: 11px 14px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 11px; margin-bottom: 8px; cursor: pointer; transition: 0.2s; }
-.pay-item:hover { border-color: rgba(0,102,255,0.3); }
-.pay-item input { accent-color: #0066ff; }
+.pay-item:hover { border-color: rgba(var(--clr-accent-rgb),0.3); }
+.pay-item input { accent-color: var(--clr-accent); }
 .pay-item label { cursor: pointer; font-size: 14px; }
 
 /* Shipping method selector */
@@ -118,7 +118,7 @@ body {
 .boleto-info p { font-size: 13px; color: #888; text-align: center; margin-bottom: 6px; }
 
 .card-visual { perspective: 1200px; margin-bottom: 16px; }
-.card-front, .card-back { background: linear-gradient(135deg, #1a0010, #3a000e, #1a0010); border-radius: 16px; padding: 20px; height: 160px; border: 1px solid rgba(0,102,255,0.25); display: flex; flex-direction: column; justify-content: space-between; }
+.card-front, .card-back { background: linear-gradient(135deg, #1a0010, #3a000e, #1a0010); border-radius: 16px; padding: 20px; height: 160px; border: 1px solid rgba(var(--clr-accent-rgb),0.25); display: flex; flex-direction: column; justify-content: space-between; }
 .card-top { display: flex; justify-content: space-between; align-items: center; }
 .card-bank { font-size: 11px; font-weight: 800; letter-spacing: 2px; color: rgba(255,255,255,0.7); }
 .card-brand { font-size: 14px; font-weight: 800; color: #fff; }
@@ -134,23 +134,23 @@ body {
 .card-form .form-group { margin-bottom: 12px; }
 .card-form label { display: block; font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
 .card-form input, .card-form select { width: 100%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 9px; color: #fff; padding: 10px 12px; font-size: 13px; outline: none; font-family: 'Poppins', sans-serif; transition: 0.2s; }
-.card-form input:focus, .card-form select:focus { border-color: rgba(0,102,255,0.4); }
+.card-form input:focus, .card-form select:focus { border-color: rgba(var(--clr-accent-rgb),0.4); }
 .card-form select option { background: #0a0a14; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .installment-info { font-size: 13px; color: #888; padding: 8px 0; }
 .installment-info strong { color: #fff; }
 
-.btn-checkout { width: 100%; padding: 15px; background: linear-gradient(135deg, #0044cc, #0066ff); color: #fff; border: none; border-radius: 12px; font-size: 16px; font-weight: 800; cursor: pointer; transition: 0.3s; font-family: 'Poppins', sans-serif; margin-bottom: 10px; box-shadow: 0 6px 24px rgba(0,102,255,0.3); }
-.btn-checkout:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(0,102,255,0.4); }
+.btn-checkout { width: 100%; padding: 15px; background: linear-gradient(135deg, var(--clr-accent-dark), var(--clr-accent)); color: #fff; border: none; border-radius: 12px; font-size: 16px; font-weight: 800; cursor: pointer; transition: 0.3s; font-family: 'Poppins', sans-serif; margin-bottom: 10px; box-shadow: 0 6px 24px rgba(var(--clr-accent-rgb),0.3); }
+.btn-checkout:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(var(--clr-accent-rgb),0.4); }
 .btn-clear { width: 100%; padding: 10px; background: transparent; color: #555; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; font-size: 13px; cursor: pointer; transition: 0.3s; font-family: 'Poppins', sans-serif; }
-.btn-clear:hover { border-color: rgba(255,68,102,0.4); color: #3384fa; }
+.btn-clear:hover { border-color: rgba(255,68,102,0.4); color: var(--clr-accent-light); }
 
 .empty-cart { text-align: center; padding: 100px 20px; }
 .empty-icon { font-size: 80px; margin-bottom: 20px; opacity: 0.15; }
 .empty-cart h2 { font-size: 24px; color: #666; margin-bottom: 8px; }
 .empty-cart p { color: #444; margin-bottom: 28px; font-size: 15px; }
-.btn-shop { background: #0066ff; color: #fff; border: none; padding: 14px 30px; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 16px; transition: 0.3s; font-family: 'Poppins', sans-serif; }
-.btn-shop:hover { background: #0044cc; }
+.btn-shop { background: var(--clr-accent); color: #fff; border: none; padding: 14px 30px; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 16px; transition: 0.3s; font-family: 'Poppins', sans-serif; }
+.btn-shop:hover { background: var(--clr-accent-dark); }
 
 .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.93); z-index: 9999; align-items: center; justify-content: center; }
 .modal.active { display: flex; }
@@ -158,7 +158,7 @@ body {
 .success-icon { font-size: 60px; margin-bottom: 18px; }
 .modal-content h2 { font-size: 24px; font-weight: 800; margin-bottom: 16px; }
 .modal-content p { color: #888; font-size: 14px; line-height: 1.8; margin-bottom: 28px; }
-.btn-back-shop { background: linear-gradient(135deg, #0044cc, #0066ff); color: #fff; border: none; padding: 13px 28px; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 15px; transition: 0.3s; font-family: 'Poppins', sans-serif; }
+.btn-back-shop { background: linear-gradient(135deg, var(--clr-accent-dark), var(--clr-accent)); color: #fff; border: none; padding: 13px 28px; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 15px; transition: 0.3s; font-family: 'Poppins', sans-serif; }
 .btn-back-shop:hover { opacity: 0.9; }
 
 @media (max-width: 900px) {

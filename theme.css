@@ -3,6 +3,27 @@
    Themes: vermelho (default) | verde | azul
    ============================================================ */
 
+/* ---- CSS VARIABLES per theme ------------------------------ */
+:root,
+[data-theme="vermelho"] {
+    --clr-accent:     #e8001d;
+    --clr-accent-dark:#c0001a;
+    --clr-accent-rgb: 232, 0, 29;
+    --clr-accent-light:#ff6677;
+}
+[data-theme="verde"] {
+    --clr-accent:     #00c44f;
+    --clr-accent-dark:#008f38;
+    --clr-accent-rgb: 0, 196, 79;
+    --clr-accent-light:#55ff99;
+}
+[data-theme="azul"] {
+    --clr-accent:     #1a7aff;
+    --clr-accent-dark:#0050cc;
+    --clr-accent-rgb: 26, 122, 255;
+    --clr-accent-light:#66aaff;
+}
+
 /* ---- VERMELHO (red & black) — DEFAULT --------------------- */
 [data-theme="vermelho"] .background-glow {
     background:
