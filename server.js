@@ -1,5 +1,4 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
@@ -12,89 +11,59 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cors());
 
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname)));
 
-// CONEXÃO MONGODB
-mongoose.connect("SUA_URL_MONGODB")
-.then(() => {
-    console.log("MongoDB conectado");
-})
-.catch((err) => {
-    console.log(err);
-});
+const JWT_SECRET = process.env.JWT_SECRET || "techstore_secret_key";
 
-// MODELO DE USUÁRIO
-const User = mongoose.model("User", {
-    email: String,
-    password: String
-});
+const users = [];
 
-// CADASTRO
 app.post("/register", async (req, res) => {
-
     const { email, password } = req.body;
 
-    const userExists = await User.findOne({ email });
+    if (!email || !password) {
+        return res.status(400).json({ message: "Email e senha são obrigatórios" });
+    }
 
-    if(userExists){
-        return res.status(400).json({
-            message: "Usuário já existe"
-        });
+    const userExists = users.find(u => u.email === email);
+
+    if (userExists) {
+        return res.status(400).json({ message: "Usuário já existe" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    users.push({ email, password: hashedPassword });
 
-    const user = new User({
-        email,
-        password: hashedPassword
-    });
-
-    await user.save();
-
-    res.json({
-        message: "Conta criada"
-    });
-
+    res.json({ message: "Conta criada" });
 });
 
-// LOGIN
 app.post("/login", async (req, res) => {
-
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
+    if (!email || !password) {
+        return res.status(400).json({ message: "Email e senha são obrigatórios" });
+    }
 
-    if(!user){
-        return res.status(400).json({
-            message: "Usuário não encontrado"
-        });
+    const user = users.find(u => u.email === email);
+
+    if (!user) {
+        return res.status(400).json({ message: "Usuário não encontrado" });
     }
 
     const validPassword = await bcrypt.compare(password, user.password);
 
-    if(!validPassword){
-        return res.status(400).json({
-            message: "Senha incorreta"
-        });
+    if (!validPassword) {
+        return res.status(400).json({ message: "Senha incorreta" });
     }
 
-    const token = jwt.sign(
-        { id: user._id },
-        "SEGREDO_JWT"
-    );
+    const token = jwt.sign({ email: user.email }, JWT_SECRET, { expiresIn: "7d" });
 
-    res.json({
-        message: "Login realizado",
-        token
-    });
-
+    res.json({ message: "Login realizado", token });
 });
 
-// INDEX
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "index.html"));
+    res.sendFile(path.join(__dirname, "index.html"));
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
     console.log(`Servidor rodando na porta ${PORT}`);
 });
