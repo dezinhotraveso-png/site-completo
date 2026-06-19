@@ -1,5 +1,26 @@
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
 
+/* COPA DO MUNDO BANNER */
+.copa-dash-banner {
+    width: 100%;
+    background: linear-gradient(90deg, #009c3b 0%, #ffdf00 50%, #009c3b 100%);
+    color: #111;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+    padding: 9px 16px;
+    position: sticky;
+    top: 0;
+    z-index: 1001;
+    box-shadow: 0 2px 16px rgba(0,156,59,0.4);
+    animation: copaBannerPulse 3s ease-in-out infinite;
+}
+
+@keyframes copaBannerPulse {
+    0%, 100% { box-shadow: 0 2px 16px rgba(0,156,59,0.4); }
+    50% { box-shadow: 0 2px 28px rgba(255,223,0,0.6); }
+}
+
 body {
     background: #04040a; color: #fff; min-height: 100vh;
     background-image:

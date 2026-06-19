@@ -159,3 +159,55 @@ input:not(:placeholder-shown) ~ label {
     font-weight: 500;
     color: #ff4466;
 }
+
+/* ===== COPA DO MUNDO ===== */
+.copa-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(90deg, #009c3b 0%, #ffdf00 50%, #009c3b 100%);
+    color: #111;
+    font-weight: 700;
+    font-size: 14px;
+    text-align: center;
+    padding: 8px 16px;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 12px rgba(0,156,59,0.4);
+    animation: copaPulse 3s ease-in-out infinite;
+}
+
+.copa-text {
+    font-weight: 800;
+}
+
+@keyframes copaPulse {
+    0%, 100% { box-shadow: 0 2px 12px rgba(0,156,59,0.4); }
+    50% { box-shadow: 0 2px 24px rgba(255,223,0,0.6); }
+}
+
+.copa-ball {
+    position: fixed;
+    font-size: 40px;
+    opacity: 0.08;
+    z-index: 0;
+    animation: floatBall 6s ease-in-out infinite;
+    pointer-events: none;
+}
+.b1 { bottom: 15%; left: 8%; animation-delay: 0s; }
+.b2 { bottom: 30%; right: 6%; animation-delay: 2s; }
+.b3 { top: 30%; left: 50%; animation-delay: 4s; font-size: 60px; }
+
+@keyframes floatBall {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(20deg); }
+}
+
+body {
+    padding-top: 36px;
+}
