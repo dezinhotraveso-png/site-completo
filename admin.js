@@ -480,7 +480,9 @@ function renderAnalytics() {
     });
     const topProds = Object.entries(prodCount).sort((a, b) => b[1] - a[1]).slice(0, 5);
     const maxProd = Math.max(...topProds.map(x => x[1]), 1);
-    document.getElementById("topProducts").innerHTML = topProds.length === 0
+    const topProductsEl = document.getElementById("topProducts");
+    if (!topProductsEl) return;
+    topProductsEl.innerHTML = topProds.length === 0
         ? `<p class="no-data">Ainda não há produtos pedidos.</p>`
         : topProds.map(([name, qty], i) => `
             <div class="bar-row">
