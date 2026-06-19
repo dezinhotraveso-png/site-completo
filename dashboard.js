@@ -79,6 +79,11 @@ function initDashboard() {
     }
 
     /* Load products — safe with try/catch */
+    const PRODUCTS_VERSION = 'v2';
+    if (localStorage.getItem('tech_products_version') !== PRODUCTS_VERSION) {
+        localStorage.removeItem('tech_products');
+        localStorage.setItem('tech_products_version', PRODUCTS_VERSION);
+    }
     try {
         const raw = localStorage.getItem('tech_products');
         const saved = raw ? JSON.parse(raw) : [];
@@ -89,32 +94,32 @@ function initDashboard() {
     if (products.length === 0) {
         const defaultProducts = [
             { id: 1001, name: "SSD Kingston NV2 1TB NVMe", price: 389.90, image: "https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=400&h=280&fit=crop", category: "SSDs", stock: 25 },
-            { id: 1002, name: "SSD Samsung 870 EVO 500GB SATA", price: 299.90, image: "https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=400&h=280&fit=crop", category: "SSDs", stock: 18 },
-            { id: 1003, name: "SSD WD Black SN850X 2TB PCIe Gen4", price: 849.90, image: "https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=400&h=280&fit=crop", category: "SSDs", stock: 10 },
+            { id: 1002, name: "SSD Samsung 870 EVO 500GB SATA", price: 299.90, image: "https://images.unsplash.com/photo-1624705002806-5d72df19c3ad?w=400&h=280&fit=crop", category: "SSDs", stock: 18 },
+            { id: 1003, name: "SSD WD Black SN850X 2TB PCIe Gen4", price: 849.90, image: "https://images.unsplash.com/photo-1602405800686-9b5ccd726c99?w=400&h=280&fit=crop", category: "SSDs", stock: 10 },
             { id: 1004, name: "HD Seagate Barracuda 2TB 7200rpm", price: 279.90, image: "https://images.unsplash.com/photo-1531492746076-161ca9bcad58?w=400&h=280&fit=crop", category: "HDs", stock: 30 },
-            { id: 1005, name: "HD Western Digital Blue 1TB", price: 219.90, image: "https://images.unsplash.com/photo-1531492746076-161ca9bcad58?w=400&h=280&fit=crop", category: "HDs", stock: 22 },
-            { id: 1006, name: "HD Toshiba 4TB NAS Internal", price: 479.90, image: "https://images.unsplash.com/photo-1531492746076-161ca9bcad58?w=400&h=280&fit=crop", category: "HDs", stock: 12 },
-            { id: 1007, name: "Fonte Corsair RM750x 750W 80+ Gold", price: 649.90, image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=280&fit=crop", category: "Fontes", stock: 15 },
+            { id: 1005, name: "HD Western Digital Blue 1TB", price: 219.90, image: "https://images.unsplash.com/photo-1565728744382-61accd4aa148?w=400&h=280&fit=crop", category: "HDs", stock: 22 },
+            { id: 1006, name: "HD Toshiba 4TB NAS Internal", price: 479.90, image: "https://images.unsplash.com/photo-1598520106830-8c45c2035460?w=400&h=280&fit=crop", category: "HDs", stock: 12 },
+            { id: 1007, name: "Fonte Corsair RM750x 750W 80+ Gold", price: 649.90, image: "https://images.unsplash.com/photo-1555617778-02518510b9f7?w=400&h=280&fit=crop", category: "Fontes", stock: 15 },
             { id: 1008, name: "Fonte EVGA SuperNOVA 650 G6 Modular", price: 589.90, image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=280&fit=crop", category: "Fontes", stock: 8 },
-            { id: 1009, name: "Fonte Seasonic Focus GX-850 80+ Gold", price: 729.90, image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=280&fit=crop", category: "Fontes", stock: 11 },
+            { id: 1009, name: "Fonte Seasonic Focus GX-850 80+ Gold", price: 729.90, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=400&h=280&fit=crop", category: "Fontes", stock: 11 },
             { id: 1010, name: "Processador AMD Ryzen 5 7600X 4.7GHz", price: 1199.90, image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=400&h=280&fit=crop", category: "Processadores", stock: 14 },
-            { id: 1011, name: "Processador Intel Core i5-13600K 3.5GHz", price: 1349.90, image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=400&h=280&fit=crop", category: "Processadores", stock: 9 },
-            { id: 1012, name: "Processador AMD Ryzen 9 7950X 4.5GHz", price: 3299.90, image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=400&h=280&fit=crop", category: "Processadores", stock: 5 },
-            { id: 1013, name: "Placa de Vídeo RTX 4070 Super 12GB", price: 3899.90, image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=280&fit=crop", category: "Placas de Vídeo", stock: 7 },
+            { id: 1011, name: "Processador Intel Core i5-13600K 3.5GHz", price: 1349.90, image: "https://images.unsplash.com/photo-1601343473702-3e1da6a4f8d3?w=400&h=280&fit=crop", category: "Processadores", stock: 9 },
+            { id: 1012, name: "Processador AMD Ryzen 9 7950X 4.5GHz", price: 3299.90, image: "https://images.unsplash.com/photo-1562976540-1502c2145851?w=400&h=280&fit=crop&crop=top", category: "Processadores", stock: 5 },
+            { id: 1013, name: "Placa de Vídeo RTX 4070 Super 12GB", price: 3899.90, image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=400&h=280&fit=crop", category: "Placas de Vídeo", stock: 7 },
             { id: 1014, name: "Placa de Vídeo RX 7800 XT 16GB GDDR6", price: 2999.90, image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=280&fit=crop", category: "Placas de Vídeo", stock: 6 },
-            { id: 1015, name: "Placa de Vídeo RTX 4060 8GB DLSS 3", price: 2199.90, image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=280&fit=crop", category: "Placas de Vídeo", stock: 12 },
+            { id: 1015, name: "Placa de Vídeo RTX 4060 8GB DLSS 3", price: 2199.90, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=400&h=280&fit=crop&crop=bottom", category: "Placas de Vídeo", stock: 12 },
             { id: 1016, name: "Memória RAM Corsair Vengeance 32GB DDR5", price: 599.90, image: "https://images.unsplash.com/photo-1562976540-1502c2145851?w=400&h=280&fit=crop", category: "Memórias RAM", stock: 20 },
-            { id: 1017, name: "Memória RAM Kingston Fury 16GB DDR4 3200", price: 279.90, image: "https://images.unsplash.com/photo-1562976540-1502c2145851?w=400&h=280&fit=crop", category: "Memórias RAM", stock: 35 },
-            { id: 1018, name: "Memória RAM G.Skill Trident Z5 64GB DDR5", price: 1099.90, image: "https://images.unsplash.com/photo-1562976540-1502c2145851?w=400&h=280&fit=crop", category: "Memórias RAM", stock: 8 },
+            { id: 1017, name: "Memória RAM Kingston Fury 16GB DDR4 3200", price: 279.90, image: "https://images.unsplash.com/photo-1568820684731-80a96e7c836a?w=400&h=280&fit=crop", category: "Memórias RAM", stock: 35 },
+            { id: 1018, name: "Memória RAM G.Skill Trident Z5 64GB DDR5", price: 1099.90, image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=400&h=280&fit=crop&crop=entropy", category: "Memórias RAM", stock: 8 },
             { id: 1019, name: "Monitor LG 27\" 4K UHD IPS 144Hz", price: 2499.90, image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=400&h=280&fit=crop", category: "Monitores", stock: 10 },
-            { id: 1020, name: "Monitor Samsung 32\" Odyssey G7 240Hz", price: 3199.90, image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=400&h=280&fit=crop", category: "Monitores", stock: 6 },
-            { id: 1021, name: "Monitor AOC 24\" FHD 165Hz IPS", price: 799.90, image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=400&h=280&fit=crop", category: "Monitores", stock: 18 },
+            { id: 1020, name: "Monitor Samsung 32\" Odyssey G7 240Hz", price: 3199.90, image: "https://images.unsplash.com/photo-1547082299-de196ea013d6?w=400&h=280&fit=crop", category: "Monitores", stock: 6 },
+            { id: 1021, name: "Monitor AOC 24\" FHD 165Hz IPS", price: 799.90, image: "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=400&h=280&fit=crop", category: "Monitores", stock: 18 },
             { id: 1022, name: "Suporte para Monitor Duplo Articulado", price: 189.90, image: "https://images.unsplash.com/photo-1593640408182-31c228b5e03c?w=400&h=280&fit=crop", category: "Acessórios", stock: 25 },
-            { id: 1023, name: "Hub USB-C 10 em 1 com HDMI e Ethernet", price: 219.90, image: "https://images.unsplash.com/photo-1593640408182-31c228b5e03c?w=400&h=280&fit=crop", category: "Acessórios", stock: 30 },
-            { id: 1024, name: "Cabo HDMI 2.1 8K 3 metros", price: 79.90, image: "https://images.unsplash.com/photo-1593640408182-31c228b5e03c?w=400&h=280&fit=crop", category: "Acessórios", stock: 50 },
+            { id: 1023, name: "Hub USB-C 10 em 1 com HDMI e Ethernet", price: 219.90, image: "https://images.unsplash.com/photo-1625842268584-8f3296236761?w=400&h=280&fit=crop", category: "Acessórios", stock: 30 },
+            { id: 1024, name: "Cabo HDMI 2.1 8K 3 metros", price: 79.90, image: "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=400&h=280&fit=crop", category: "Acessórios", stock: 50 },
             { id: 1025, name: "Teclado Mecânico Redragon Kumara RGB", price: 299.90, image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&h=280&fit=crop", category: "Teclados", stock: 20 },
             { id: 1026, name: "Mouse Logitech MX Master 3S Wireless", price: 499.90, image: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=400&h=280&fit=crop", category: "Mouses", stock: 22 },
-            { id: 1027, name: "Headset HyperX Cloud II 7.1 Surround", price: 449.90, image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=280&fit=crop", category: "Headsets", stock: 15 },
+            { id: 1027, name: "Headset HyperX Cloud II 7.1 Surround", price: 449.90, image: "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400&h=280&fit=crop", category: "Headsets", stock: 15 },
         ];
         products = defaultProducts;
         localStorage.setItem('tech_products', JSON.stringify(products));
