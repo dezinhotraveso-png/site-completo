@@ -1,20 +1,23 @@
 (function () {
     const THEMES = [
-        { id: 'brasil',   label: 'Brasil',        dot: 'dot-brasil',   icon: '🇧🇷' },
         { id: 'vermelho', label: 'Vermelho & Preto', dot: 'dot-vermelho', icon: '🔴' },
-        { id: 'mono',     label: 'Preto & Branco', dot: 'dot-mono',    icon: '⚫' },
+        { id: 'verde',    label: 'Verde & Preto',    dot: 'dot-verde',    icon: '🟢' },
+        { id: 'azul',     label: 'Azul & Preto',     dot: 'dot-azul',     icon: '🔵' },
     ];
+
+    const VALID_IDS = THEMES.map(t => t.id);
 
     function applyTheme(id) {
         document.documentElement.setAttribute('data-theme', id);
-        localStorage.setItem('techstore_theme', id);
+        localStorage.setItem('dreamstore_theme', id);
         document.querySelectorAll('.theme-opt').forEach(el => {
             el.classList.toggle('active', el.dataset.theme === id);
         });
     }
 
     function buildSwitcher() {
-        const saved = localStorage.getItem('techstore_theme') || 'brasil';
+        const saved = localStorage.getItem('dreamstore_theme');
+        const initial = VALID_IDS.includes(saved) ? saved : 'vermelho';
 
         const wrapper = document.createElement('div');
         wrapper.className = 'theme-switcher';
@@ -25,7 +28,7 @@
 
         THEMES.forEach(t => {
             const btn = document.createElement('button');
-            btn.className = 'theme-opt' + (t.id === saved ? ' active' : '');
+            btn.className = 'theme-opt' + (t.id === initial ? ' active' : '');
             btn.dataset.theme = t.id;
             btn.innerHTML = `<span class="theme-dot ${t.dot}"></span>${t.label}`;
             btn.addEventListener('click', () => {
@@ -50,7 +53,7 @@
         wrapper.appendChild(toggle);
         document.body.appendChild(wrapper);
 
-        applyTheme(saved);
+        applyTheme(initial);
     }
 
     if (document.readyState === 'loading') {
