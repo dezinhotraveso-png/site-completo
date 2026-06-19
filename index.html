@@ -35,33 +35,37 @@
     <div id="loginArea" class="form-container">
         <h1>BEM-VINDO</h1>
         <p class="subtitle">Sentimos sua falta! Entre na sua conta.</p>
-        <div class="input-group">
-            <input type="email" id="email" placeholder=" " required>
-            <label>Email</label>
-        </div>
-        <div class="input-group">
-            <input type="password" id="password" placeholder=" " required onkeydown="if(event.key==='Enter')login()">
-            <label>Senha</label>
-        </div>
-        <button class="btn login-btn" onclick="login()">ENTRAR</button>
+        <form onsubmit="login(); return false;" autocomplete="on">
+            <div class="input-group">
+                <input type="email" id="email" placeholder=" " required autocomplete="email">
+                <label>Email</label>
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" placeholder=" " required autocomplete="current-password">
+                <label>Senha</label>
+            </div>
+            <button type="submit" class="btn login-btn">ENTRAR</button>
+        </form>
     </div>
 
     <div id="registerArea" class="form-container" style="display:none;">
         <h1>CRIAR CONTA</h1>
         <p class="subtitle">Junte-se a nós e comece sua jornada.</p>
-        <div class="input-group">
-            <input type="text" id="registerName" placeholder=" " required>
-            <label>Seu nome</label>
-        </div>
-        <div class="input-group">
-            <input type="email" id="registerEmail" placeholder=" " required>
-            <label>Novo email</label>
-        </div>
-        <div class="input-group">
-            <input type="password" id="registerPassword" placeholder=" " required onkeydown="if(event.key==='Enter')register()">
-            <label>Nova senha</label>
-        </div>
-        <button class="btn register-btn" onclick="register()">CRIAR CONTA</button>
+        <form onsubmit="register(); return false;" autocomplete="on">
+            <div class="input-group">
+                <input type="text" id="registerName" placeholder=" " required autocomplete="name">
+                <label>Seu nome</label>
+            </div>
+            <div class="input-group">
+                <input type="email" id="registerEmail" placeholder=" " required autocomplete="email">
+                <label>Novo email</label>
+            </div>
+            <div class="input-group">
+                <input type="password" id="registerPassword" placeholder=" " required autocomplete="new-password">
+                <label>Nova senha</label>
+            </div>
+            <button type="submit" class="btn register-btn">CRIAR CONTA</button>
+        </form>
     </div>
 
     <p id="msg"></p>
