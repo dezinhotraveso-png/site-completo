@@ -1,23 +1,23 @@
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-body { background: #04040a; color: #fff; min-height: 100vh; padding-bottom: 60px; background-image: radial-gradient(ellipse at 10% 0%, rgba(220,0,40,0.13), transparent 50%); }
+body { background: #04040a; color: #fff; min-height: 100vh; padding-bottom: 60px; background-image: radial-gradient(ellipse at 10% 0%, rgba(0,102,255,0.13), transparent 50%); }
 
-.navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: rgba(4,4,10,0.95); border-bottom: 1px solid rgba(220,0,40,0.2); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 30px rgba(0,0,0,0.5); backdrop-filter: blur(20px); }
+.navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: rgba(4,4,10,0.95); border-bottom: 1px solid rgba(0,102,255,0.2); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 30px rgba(0,0,0,0.5); backdrop-filter: blur(20px); }
 .logo { font-size: 24px; font-weight: 800; cursor: pointer; }
-.logo span { color: #e8001d; text-shadow: 0 0 16px rgba(232,0,29,0.5); }
+.logo span { color: #0066ff; text-shadow: 0 0 16px rgba(0,102,255,0.5); }
 .nav-right { display: flex; gap: 8px; align-items: center; }
 .nav-btn { background: transparent; border: 1px solid #333; color: #ccc; padding: 8px 13px; border-radius: 8px; cursor: pointer; transition: 0.3s; font-size: 13px; font-family: 'Poppins', sans-serif; }
 .nav-btn:hover { border-color: #fff; color: #fff; }
 .nav-btn.cart { border-color: #3483fa; color: #3483fa; }
 .nav-btn.cart:hover { background: #3483fa; color: #fff; }
-.nav-btn.logout { border-color: rgba(232,0,29,0.4); color: #ff4466; }
-.nav-btn.logout:hover { background: #e8001d; border-color: #e8001d; color: #fff; }
+.nav-btn.logout { border-color: rgba(0,102,255,0.4); color: #3384fa; }
+.nav-btn.logout:hover { background: #0066ff; border-color: #0066ff; color: #fff; }
 
 .container { max-width: 900px; margin: 0 auto; padding: 30px 20px; }
 .page-header { margin-bottom: 28px; }
 .page-header h1 { font-size: 28px; font-weight: 800; margin-bottom: 6px; }
 .page-header p { color: #555; font-size: 14px; }
 
-.admin-banner { background: rgba(232,0,29,0.08); border: 1px solid rgba(232,0,29,0.2); border-radius: 12px; padding: 12px 18px; margin-bottom: 20px; font-size: 14px; color: #ff6677; }
+.admin-banner { background: rgba(0,102,255,0.08); border: 1px solid rgba(0,102,255,0.2); border-radius: 12px; padding: 12px 18px; margin-bottom: 20px; font-size: 14px; color: #5599ff; }
 .refund-requests-list { margin-bottom: 32px; }
 
 /* ============================
@@ -34,7 +34,7 @@ body { background: #04040a; color: #fff; min-height: 100vh; padding-bottom: 60px
 .status-processando { background: rgba(255,204,0,0.1); color: #ffcc00; border: 1px solid rgba(255,204,0,0.2); }
 .status-reembolso_solicitado { background: rgba(255,100,0,0.1); color: #ff9900; border: 1px solid rgba(255,100,0,0.2); }
 .status-reembolsado { background: rgba(150,150,150,0.1); color: #aaa; border: 1px solid rgba(150,150,150,0.2); }
-.status-cancelado { background: rgba(232,0,29,0.1); color: #ff4466; border: 1px solid rgba(232,0,29,0.2); }
+.status-cancelado { background: rgba(0,102,255,0.1); color: #3384fa; border: 1px solid rgba(0,102,255,0.2); }
 
 /* ============================
    TRACKING TIMELINE
@@ -53,7 +53,7 @@ body { background: #04040a; color: #fff; min-height: 100vh; padding-bottom: 60px
 }
 .dot-done { background: linear-gradient(135deg, rgba(0,200,100,0.25), rgba(0,255,136,0.15)); border: 2px solid rgba(0,255,136,0.5); }
 .dot-pending { background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.08); }
-.dot-cancelled { background: rgba(232,0,29,0.1); border: 2px solid rgba(232,0,29,0.2); }
+.dot-cancelled { background: rgba(0,102,255,0.1); border: 2px solid rgba(0,102,255,0.2); }
 .track-lbl { font-size: 10px; text-align: center; max-width: 68px; line-height: 1.3; }
 .lbl-done { color: #aaa; font-weight: 600; }
 .lbl-pending { color: #333; }
@@ -63,7 +63,7 @@ body { background: #04040a; color: #fff; min-height: 100vh; padding-bottom: 60px
 }
 .line-done { background: linear-gradient(90deg, rgba(0,255,136,0.5), rgba(0,255,136,0.3)); }
 .line-pending { background: rgba(255,255,255,0.06); }
-.line-cancelled { background: rgba(232,0,29,0.2); }
+.line-cancelled { background: rgba(0,102,255,0.2); }
 
 /* ORDER ITEMS */
 .order-items { display: flex; flex-direction: column; gap: 12px; margin-bottom: 18px; }
@@ -78,12 +78,12 @@ body { background: #04040a; color: #fff; min-height: 100vh; padding-bottom: 60px
 .order-total { font-size: 15px; font-weight: 600; margin-bottom: 3px; }
 .order-payment { font-size: 12px; color: #555; }
 .order-actions { }
-.btn-refund { background: transparent; border: 1px solid rgba(232,0,29,0.4); color: #ff4466; padding: 9px 16px; border-radius: 9px; cursor: pointer; font-size: 13px; font-weight: 600; transition: 0.3s; font-family: 'Poppins', sans-serif; }
-.btn-refund:hover:not(:disabled) { background: rgba(232,0,29,0.15); border-color: #e8001d; }
+.btn-refund { background: transparent; border: 1px solid rgba(0,102,255,0.4); color: #3384fa; padding: 9px 16px; border-radius: 9px; cursor: pointer; font-size: 13px; font-weight: 600; transition: 0.3s; font-family: 'Poppins', sans-serif; }
+.btn-refund:hover:not(:disabled) { background: rgba(0,102,255,0.15); border-color: #0066ff; }
 .btn-refund:disabled { opacity: 0.35; cursor: not-allowed; }
 
 /* ADMIN REFUND CARDS */
-.refund-req-card { background: rgba(255,255,255,0.025); border: 1px solid rgba(232,0,29,0.15); border-radius: 16px; padding: 18px; margin-bottom: 14px; }
+.refund-req-card { background: rgba(255,255,255,0.025); border: 1px solid rgba(0,102,255,0.15); border-radius: 16px; padding: 18px; margin-bottom: 14px; }
 .refund-req-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 .refund-req-header h3 { font-size: 15px; font-weight: 700; }
 .refund-req-user { font-size: 13px; color: #888; margin-bottom: 6px; }
@@ -92,8 +92,8 @@ body { background: #04040a; color: #fff; min-height: 100vh; padding-bottom: 60px
 .admin-actions { display: flex; gap: 10px; }
 .btn-approve { background: rgba(0,200,100,0.12); border: 1px solid rgba(0,255,136,0.3); color: #00ff88; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 700; transition: 0.3s; font-family: 'Poppins', sans-serif; }
 .btn-approve:hover { background: rgba(0,200,100,0.2); }
-.btn-deny { background: rgba(232,0,29,0.1); border: 1px solid rgba(232,0,29,0.3); color: #ff4466; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 700; transition: 0.3s; font-family: 'Poppins', sans-serif; }
-.btn-deny:hover { background: rgba(232,0,29,0.18); }
+.btn-deny { background: rgba(0,102,255,0.1); border: 1px solid rgba(0,102,255,0.3); color: #3384fa; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 700; transition: 0.3s; font-family: 'Poppins', sans-serif; }
+.btn-deny:hover { background: rgba(0,102,255,0.18); }
 
 /* REFUND MODAL */
 .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 9999; align-items: center; justify-content: center; }
@@ -111,7 +111,7 @@ body { background: #04040a; color: #fff; min-height: 100vh; padding-bottom: 60px
 .form-group { margin-bottom: 16px; }
 .form-group label { display: block; font-size: 12px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 7px; }
 .form-group select, .form-group textarea { width: 100%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: #fff; padding: 11px 14px; font-size: 14px; outline: none; font-family: 'Poppins', sans-serif; transition: 0.2s; }
-.form-group select:focus, .form-group textarea:focus { border-color: rgba(232,0,29,0.5); }
+.form-group select:focus, .form-group textarea:focus { border-color: rgba(0,102,255,0.5); }
 .form-group select option { background: #0a0a14; }
 .form-group textarea { resize: vertical; }
 .refund-policy { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 14px 16px; margin-bottom: 18px; font-size: 13px; color: #666; }
@@ -121,7 +121,7 @@ body { background: #04040a; color: #fff; min-height: 100vh; padding-bottom: 60px
 .modal-actions { display: flex; gap: 10px; }
 .btn-cancel { flex: 1; padding: 12px; background: transparent; border: 1px solid rgba(255,255,255,0.1); color: #888; border-radius: 10px; cursor: pointer; font-size: 14px; transition: 0.3s; font-family: 'Poppins', sans-serif; }
 .btn-cancel:hover { border-color: #fff; color: #fff; }
-.btn-submit { flex: 1; padding: 12px; background: linear-gradient(135deg, #c0001a, #e8001d); color: #fff; border: none; border-radius: 10px; cursor: pointer; font-size: 14px; font-weight: 700; transition: 0.3s; font-family: 'Poppins', sans-serif; }
+.btn-submit { flex: 1; padding: 12px; background: linear-gradient(135deg, #0044cc, #0066ff); color: #fff; border: none; border-radius: 10px; cursor: pointer; font-size: 14px; font-weight: 700; transition: 0.3s; font-family: 'Poppins', sans-serif; }
 .btn-submit:hover { opacity: 0.9; }
 .success-anim { font-size: 50px; }
 
@@ -130,8 +130,8 @@ body { background: #04040a; color: #fff; min-height: 100vh; padding-bottom: 60px
 .empty-icon { font-size: 70px; margin-bottom: 18px; opacity: 0.2; }
 .empty-state h2 { font-size: 22px; margin-bottom: 8px; color: #666; }
 .empty-state p { color: #444; margin-bottom: 28px; font-size: 14px; }
-.btn-shop { background: #e8001d; color: #fff; border: none; padding: 12px 28px; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 15px; transition: 0.3s; font-family: 'Poppins', sans-serif; }
-.btn-shop:hover { background: #c0001a; }
+.btn-shop { background: #0066ff; color: #fff; border: none; padding: 12px 28px; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 15px; transition: 0.3s; font-family: 'Poppins', sans-serif; }
+.btn-shop:hover { background: #0044cc; }
 
 @media (max-width: 600px) {
     .order-item { flex-wrap: wrap; }

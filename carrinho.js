@@ -7,6 +7,7 @@ let selectedShipping = "techstore"; // techstore (gratis) ou correios (mais caro
    COUPONS
    ============================ */
 const COUPONS = {
+    "BRASIL2026":  { type: "percent", value: 10, label: "10% OFF 🇧🇷⚽" },
     "TECH10":      { type: "percent", value: 10, label: "10% OFF" },
     "SAVE20":      { type: "percent", value: 20, label: "20% OFF" },
     "BEMVINDO":    { type: "percent", value: 15, label: "15% OFF" },

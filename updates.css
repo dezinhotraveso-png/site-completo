@@ -14,18 +14,18 @@ body {
     display: flex; align-items: center; justify-content: space-between;
     padding: 0 5%; height: 64px;
     background: rgba(4,4,10,0.97);
-    border-bottom: 1px solid rgba(232,0,29,0.18);
+    border-bottom: 1px solid rgba(0,102,255,0.18);
     position: sticky; top: 0; z-index: 100;
     backdrop-filter: blur(20px);
-    box-shadow: 0 2px 30px rgba(0,0,0,0.6), 0 1px 0 rgba(232,0,29,0.08);
+    box-shadow: 0 2px 30px rgba(0,0,0,0.6), 0 1px 0 rgba(0,102,255,0.08);
 }
 .logo { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; cursor: pointer; }
-.logo span { color: #e8001d; text-shadow: 0 0 20px rgba(232,0,29,0.5); }
+.logo span { color: #0066ff; text-shadow: 0 0 20px rgba(0,102,255,0.5); }
 .nav-right { display: flex; align-items: center; gap: 10px; }
 .admin-badge {
-    background: rgba(232,0,29,0.1);
-    border: 1px solid rgba(232,0,29,0.25);
-    color: #ff6677; padding: 5px 13px; border-radius: 20px;
+    background: rgba(0,102,255,0.1);
+    border: 1px solid rgba(0,102,255,0.25);
+    color: #5599ff; padding: 5px 13px; border-radius: 20px;
     font-size: 12px; font-weight: 700;
 }
 .back-btn {
@@ -68,12 +68,12 @@ body {
 .stat {
     display: flex; flex-direction: column; align-items: center;
     background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(232,0,29,0.2);
+    border: 1px solid rgba(0,102,255,0.2);
     border-radius: 14px; padding: 12px 24px;
     backdrop-filter: blur(8px);
     min-width: 90px;
 }
-.stat span { font-size: 24px; font-weight: 800; color: #e8001d; text-shadow: 0 0 16px rgba(232,0,29,0.35); }
+.stat span { font-size: 24px; font-weight: 800; color: #0066ff; text-shadow: 0 0 16px rgba(0,102,255,0.35); }
 .stat small { font-size: 11px; color: #666; margin-top: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
 
 /* MAIN */
@@ -92,7 +92,7 @@ body {
     border-radius: 12px; padding: 10px 14px;
     transition: .2s;
 }
-.search-box:focus-within { border-color: rgba(232,0,29,0.35); background: rgba(255,255,255,0.06); }
+.search-box:focus-within { border-color: rgba(0,102,255,0.35); background: rgba(255,255,255,0.06); }
 .search-icon { font-size: 13px; opacity: 0.6; }
 .search-box input {
     background: none; border: none; color: #fff;
@@ -110,17 +110,17 @@ body {
 }
 .filter-tab:hover { color: #aaa; border-color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.07); }
 .filter-tab.active {
-    background: rgba(232,0,29,0.15);
-    border-color: rgba(232,0,29,0.4);
+    background: rgba(0,102,255,0.15);
+    border-color: rgba(0,102,255,0.4);
     color: #ff4455;
 }
 .refresh-btn {
-    background: linear-gradient(135deg, #a00010, #e8001d);
+    background: linear-gradient(135deg, #a00010, #0066ff);
     border: none;
     color: #fff; padding: 9px 18px; border-radius: 10px;
     font-size: 13px; cursor: pointer; transition: .2s;
     font-family: 'Poppins', sans-serif; font-weight: 700;
-    box-shadow: 0 3px 12px rgba(232,0,29,0.25);
+    box-shadow: 0 3px 12px rgba(0,102,255,0.25);
 }
 .refresh-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
 
@@ -133,7 +133,7 @@ body {
     transition: .15s; border-radius: 10px;
     animation: fadeIn .3s ease;
 }
-.commit-item:hover { background: rgba(232,0,29,0.04); }
+.commit-item:hover { background: rgba(0,102,255,0.04); }
 
 @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
@@ -143,7 +143,7 @@ body {
     font-size: 15px; flex-shrink: 0; margin-top: 2px;
 }
 .commit-dot.auto   { background: rgba(0,200,120,0.12); border: 1px solid rgba(0,200,120,0.28); }
-.commit-dot.access { background: rgba(232,0,29,0.12);  border: 1px solid rgba(232,0,29,0.28); }
+.commit-dot.access { background: rgba(0,102,255,0.12);  border: 1px solid rgba(0,102,255,0.28); }
 .commit-dot.manual { background: rgba(200,160,0,0.12); border: 1px solid rgba(200,160,0,0.28); }
 .commit-dot.other  { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); }
 
@@ -167,11 +167,11 @@ body {
     font-weight: 700; letter-spacing: .4px; text-transform: uppercase;
 }
 .commit-type-badge.auto   { background: rgba(0,200,120,0.12); color: #00c878; border: 1px solid rgba(0,200,120,0.2); }
-.commit-type-badge.access { background: rgba(232,0,29,0.12);  color: #ff6677; border: 1px solid rgba(232,0,29,0.2); }
+.commit-type-badge.access { background: rgba(0,102,255,0.12);  color: #5599ff; border: 1px solid rgba(0,102,255,0.2); }
 .commit-type-badge.manual { background: rgba(200,160,0,0.12); color: #c8a000; border: 1px solid rgba(200,160,0,0.2); }
 .commit-type-badge.other  { background: rgba(255,255,255,0.06); color: #888; border: 1px solid rgba(255,255,255,0.1); }
 .commit-link {
-    font-size: 12px; color: #e8001d; text-decoration: none;
+    font-size: 12px; color: #0066ff; text-decoration: none;
     opacity: 0; transition: .2s; font-weight: 600;
 }
 .commit-item:hover .commit-link { opacity: 1; }
@@ -184,8 +184,8 @@ body {
 }
 .spinner {
     width: 36px; height: 36px; border-radius: 50%;
-    border: 3px solid rgba(232,0,29,0.15);
-    border-top-color: #e8001d;
+    border: 3px solid rgba(0,102,255,0.15);
+    border-top-color: #0066ff;
     animation: spin .8s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
@@ -193,15 +193,15 @@ body {
 /* LOAD MORE */
 .load-more-wrap { text-align: center; margin-top: 32px; }
 .load-more-btn {
-    background: rgba(232,0,29,0.08);
-    border: 1px solid rgba(232,0,29,0.2);
+    background: rgba(0,102,255,0.08);
+    border: 1px solid rgba(0,102,255,0.2);
     color: #ff4455; padding: 12px 36px; border-radius: 12px;
     font-size: 14px; cursor: pointer; transition: .2s;
     font-family: 'Poppins', sans-serif; font-weight: 700;
 }
 .load-more-btn:hover {
-    background: rgba(232,0,29,0.15);
-    border-color: rgba(232,0,29,0.4); color: #fff;
+    background: rgba(0,102,255,0.15);
+    border-color: rgba(0,102,255,0.4); color: #fff;
     transform: translateY(-1px);
 }
 

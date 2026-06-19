@@ -20,8 +20,8 @@ body {
     width: 100%;
     height: 100%;
     background:
-        radial-gradient(ellipse at 25% 35%, rgba(220, 0, 40, 0.18) 0%, transparent 45%),
-        radial-gradient(ellipse at 78% 65%, rgba(180, 0, 30, 0.1) 0%, transparent 40%);
+        radial-gradient(ellipse at 25% 35%, rgba(0, 102, 255, 0.18) 0%, transparent 45%),
+        radial-gradient(ellipse at 78% 65%, rgba(0, 156, 59, 0.1) 0%, transparent 40%);
     z-index: -1;
 }
 
@@ -59,8 +59,8 @@ body {
 
 .tab.active {
     color: white;
-    background: linear-gradient(135deg, #c0001a, #e8001d);
-    box-shadow: 0 4px 18px rgba(232, 0, 29, 0.35);
+    background: linear-gradient(135deg, #0044cc, #0066ff);
+    box-shadow: 0 4px 18px rgba(0,102,255,0.35);
 }
 
 h1 {
@@ -96,9 +96,9 @@ input {
 }
 
 input:focus {
-    border-color: rgba(232, 0, 29, 0.6);
-    background: rgba(232, 0, 29, 0.04);
-    box-shadow: 0 0 0 3px rgba(232, 0, 29, 0.08);
+    border-color: rgba(0,102,255,0.6);
+    background: rgba(0,102,255,0.04);
+    box-shadow: 0 0 0 3px rgba(0,102,255,0.08);
 }
 
 .input-group label {
@@ -116,7 +116,7 @@ input:not(:placeholder-shown) ~ label {
     top: -10px;
     left: 10px;
     font-size: 12px;
-    color: #e8001d;
+    color: #0066ff;
     background: #0e0e16;
     padding: 0 5px;
 }
@@ -135,20 +135,20 @@ input:not(:placeholder-shown) ~ label {
 }
 
 .login-btn {
-    background: linear-gradient(135deg, #c0001a, #e8001d);
+    background: linear-gradient(135deg, #0044cc, #0066ff);
     color: white;
-    box-shadow: 0 4px 20px rgba(232, 0, 29, 0.3);
+    box-shadow: 0 4px 20px rgba(0,102,255,0.3);
 }
 
 .register-btn {
-    background: white;
-    color: black;
+    background: linear-gradient(135deg, #ffdf00, #ffc800);
+    color: #111;
 }
 
 .btn:hover {
     transform: translateY(-2px);
     filter: brightness(1.08);
-    box-shadow: 0 10px 24px rgba(232, 0, 29, 0.25);
+    box-shadow: 0 10px 24px rgba(0,102,255,0.25);
 }
 
 #msg {
