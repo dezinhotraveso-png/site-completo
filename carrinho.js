@@ -398,12 +398,12 @@ function checkout() {
     }
 
     const labels = { pix: "PIX (5% OFF)", credito: "Cartão de Crédito", boleto: "Boleto Bancário" };
-    const shippingLabel = selectedShipping === 'correios' ? " (Correios)" : " (TechStore Envios)";
+    const shippingLabel = selectedShipping === 'correios' ? " (Correios)" : " (DreamStore Envios)";
     saveOrder(user, method, total, selectedShipping);
 
     document.getElementById("successMsg").innerHTML = `
         Pagamento via <strong>${labels[method]}</strong> confirmado!<br>
-        Entrega: <strong>${selectedShipping === 'correios' ? '📮 Correios' : '🚚 TechStore Envios'}</strong><br>
+        Entrega: <strong>${selectedShipping === 'correios' ? '📮 Correios' : '🚚 DreamStore Envios'}</strong><br>
         Total: <strong>R$ ${total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</strong><br>
         <small style="color:#aaa">${extraInfo}</small><br><br>
         Seus produtos chegam em breve. 🚀<br>

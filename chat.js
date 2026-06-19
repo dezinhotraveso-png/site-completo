@@ -5,7 +5,7 @@
                 <div class="chat-header">
                     <div class="chat-avatar">🤖</div>
                     <div class="chat-header-info">
-                        <h4>Suporte TechStore</h4>
+                        <h4>Suporte DreamStore</h4>
                         <p>🟢 Online agora</p>
                     </div>
                     <button class="chat-close-btn" onclick="toggleChat()">✕</button>
@@ -28,13 +28,13 @@
     const responses = {
         default: ["Olá! Como posso te ajudar hoje? 😊", "Claro, estou aqui para ajudar!", "Deixa eu verificar isso para você..."],
         prazo: ["Os prazos de entrega são de 3 a 7 dias úteis para capitais e 5 a 12 dias para interior. ✈️", "Pedidos com PIX são processados mais rápido!"],
-        frete: ["O frete é **grátis** para todo o Brasil na TechStore! 🚚", "Não cobramos frete em nenhum pedido."],
+        frete: ["O frete é **grátis** para todo o Brasil na DreamStore! 🚚", "Não cobramos frete em nenhum pedido."],
         reembolso: ["Para solicitar reembolso, vá em Meus Pedidos e clique em 'Solicitar Reembolso'. 📋", "Reembolsos são aprovados em até 5 dias úteis."],
         pagamento: ["Aceitamos PIX (5% OFF), Cartão de Crédito em até 12x e Boleto Bancário. 💳", "O PIX é a opção com maior desconto!"],
         produto: ["Todos os produtos têm garantia de 1 ano. ✅", "Nossos produtos são originais e de alta qualidade!"],
         cupom: ["Temos cupons disponíveis! Tente: TECH10, BEMVINDO, ou TECHSTORE20 no carrinho. 🏷️"],
         cancelar: ["Para cancelar um pedido em processamento, vá em Meus Pedidos e solicite reembolso. 📦"],
-        oi: ["Olá! Seja bem-vindo à TechStore! 👋 Em que posso ajudar?", "Oi! Estou aqui para ajudar. O que você precisa?"],
+        oi: ["Olá! Seja bem-vindo à DreamStore! 👋 Em que posso ajudar?", "Oi! Estou aqui para ajudar. O que você precisa?"],
     };
 
     const quickOpts = ["Prazo de entrega", "Frete grátis?", "Reembolso", "Formas de pagamento", "Cupons de desconto"];
@@ -50,7 +50,7 @@
 
         if (open && firstOpen) {
             firstOpen = false;
-            setTimeout(() => botMessage("Olá! 👋 Sou o assistente da **TechStore**. Como posso te ajudar?"), 300);
+            setTimeout(() => botMessage("Olá! 👋 Sou o assistente da **DreamStore**. Como posso te ajudar?"), 300);
             setTimeout(() => showQuickReplies(), 900);
         }
     };

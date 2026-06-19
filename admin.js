@@ -401,7 +401,7 @@ function deleteCategory(id) {
 function resetDefaultCategories() {
     customConfirm(
         "Restaurar categorias padrão?",
-        "Todas as categorias atuais serão substituídas pelas 8 categorias padrão da TechStore.",
+        "Todas as categorias atuais serão substituídas pelas 8 categorias padrão da DreamStore.",
         "🔄",
         function() {
             saveCategories(DEFAULT_CATEGORIES);

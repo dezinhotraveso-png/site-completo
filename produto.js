@@ -69,14 +69,14 @@ function loadProduct() {
         features: produtoSalvo && produtoSalvo.features ? produtoSalvo.features : [
             "Produto original de alta qualidade",
             "Garantia de 1 ano com o fabricante",
-            "Envio imediato via TechStore Envios",
+            "Envio imediato via DreamStore Envios",
             "Satisfação 100% garantida"
         ]
     };
 
     document.getElementById("pTitle").innerText = currentProduct.title;
     document.getElementById("pPrice").innerText = currentProduct.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-    document.title = `TechStore | ${currentProduct.title}`;
+    document.title = `DreamStore | ${currentProduct.title}`;
 
     const stockEl = document.getElementById("pStock");
     if (stockEl) {
